@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thesis Pre-Defense — Token Stacking Meta Learner</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- Progress bar -->
+<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+
+<!-- Slide counter -->
+<div class="slide-counter">
+  <span id="currentSlide">1</span><span class="counter-divider">/</span><span id="totalSlides">17</span>
+</div>
+
+<!-- Navigation hints -->
+<div class="nav-hint">
+  <kbd>←</kbd> <kbd>→</kbd> navigate · <kbd>F</kbd> fullscreen · <kbd>ESC</kbd> overview
+</div>
+
+<!-- Slides container -->
+<div class="slides-container">
+
+<!-- ============ SLIDE 1: TITLE ============ -->
+<section class="slide slide-title active" data-slide="1">
+  <div class="title-grid">
+    <div class="title-mark">
+      <div class="mark-line"></div>
+      <span class="mark-label">CSE THESIS PRE-DEFENSE</span>
+    </div>
+    <h1 class="title-main">
+      An <em>Explainable</em> Token Stacking<br>
+      Meta Learner with Self-Attention<br>
+      for Multi-Class <em>Skin Cancer</em><br>
+      Classification
+    </h1>
+    <div class="title-meta">
+      <div class="meta-block">
+        <span class="meta-label">Presented By</span>
+        <p>Mohammed Moin Uddin · C221029</p>
+        <p>Mir Md. Ejajul Hoque Eju · C220136</p>
+        <p>Md. Minhajul Islam Rahat · C220138</p>
+      </div>
+      <div class="meta-block">
+        <span class="meta-label">Supervised By</span>
+        <p>Mr. Mohammad Mahadi Hassan</p>
+        <p class="meta-sub">Associate Professor, CSE</p>
+        <p class="meta-sub">International Islamic University Chittagong</p>
+      </div>
+    </div>
+    <div class="title-decoration"></div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 2: PROBLEM STATEMENT ============ -->
+<section class="slide" data-slide="2">
+  <div class="slide-content">
+    <span class="slide-tag">01 · The Problem</span>
+    <h2 class="slide-heading">Why does this <em>matter</em>?</h2>
+    <div class="two-column">
+      <div class="col-left">
+        <p class="lead">Skin cancer is one of the deadliest cancers worldwide. <strong>Melanoma</strong> alone has the highest fatality rate among all skin cancers — and survival depends entirely on <strong>early detection</strong>.</p>
+        <p class="body-text">Today's diagnosis depends on dermatologist expertise, but lesions look <em>visually similar</em>. Hair occlusion, shadows, uneven pigmentation — these artifacts make even expert diagnosis subjective and error-prone.</p>
+      </div>
+      <div class="col-right">
+        <ul class="problem-list">
+          <li><span class="bullet-x">✕</span> Single CNN models are <strong>unstable</strong> across lesion classes</li>
+          <li><span class="bullet-x">✕</span> Public datasets suffer from severe <strong>class imbalance</strong></li>
+          <li><span class="bullet-x">✕</span> Deep learning models behave like <strong>black boxes</strong></li>
+          <li><span class="bullet-x">✕</span> Multi-class accuracy lags far behind binary tasks</li>
+          <li><span class="bullet-x">✕</span> Models that work on ISIC fail on HAM10000</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 3: BACKGROUND ============ -->
+<section class="slide" data-slide="3">
+  <div class="slide-content">
+    <span class="slide-tag">02 · Background</span>
+    <h2 class="slide-heading">The <em>Present State</em></h2>
+    <div class="background-grid">
+      <div class="bg-card">
+        <span class="card-num">01</span>
+        <h3>CNN Era</h3>
+        <p>VGG, ResNet, DenseNet, Inception — architectures designed for ImageNet — repurposed for medical imaging via <strong>transfer learning</strong>.</p>
+      </div>
+      <div class="bg-card">
+        <span class="card-num">02</span>
+        <h3>Ensemble Era</h3>
+        <p>Researchers combine multiple CNNs to escape single-model instability. Soft voting, stacking, weighted averaging.</p>
+      </div>
+      <div class="bg-card">
+        <span class="card-num">03</span>
+        <h3>Attention Era</h3>
+        <p>Vision Transformers introduce global context modeling. But they need <em>massive datasets</em> — a luxury medical imaging rarely has.</p>
+      </div>
+      <div class="bg-card highlight-card">
+        <span class="card-num">04</span>
+        <h3>Our Position</h3>
+        <p>Combine the <strong>stability of ensembles</strong> with the <strong>dynamic weighting of attention</strong> — and add Grad-CAM for trust.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 4: LITERATURE REVIEW ============ -->
+<section class="slide" data-slide="4">
+  <div class="slide-content">
+    <span class="slide-tag">03 · Literature Review</span>
+    <h2 class="slide-heading">What <em>others</em> have built</h2>
+    <table class="lit-table">
+      <thead>
+        <tr><th>Approach</th><th>Reported Accuracy</th><th>Critical Limitation</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Xception (binary)</td><td>90.15%</td><td>Limited to 2-class problems</td></tr>
+        <tr><td>Xception (multi-class)</td><td>90.61%</td><td>Drops sharply in 9-class setting</td></tr>
+        <tr><td>Multi-model ensemble</td><td>78%–97%</td><td>Wide variance, unreliable</td></tr>
+        <tr><td>ViT + GNN hybrid</td><td>95%</td><td>Requires huge datasets</td></tr>
+        <tr><td>CNN + PSO optimization</td><td>98.5% / 86.1%</td><td>Poor cross-dataset generalization</td></tr>
+        <tr><td>Pure Transformer</td><td>96.48%</td><td>Heavy compute, data-hungry</td></tr>
+        <tr><td>Grad-CAM XAI baseline</td><td>73%–77%</td><td>Interpretable but inaccurate</td></tr>
+      </tbody>
+    </table>
+    <p class="caption">Most works trade accuracy for interpretability — or vice versa. Few do both.</p>
+  </div>
+</section>
+
+<!-- ============ SLIDE 5: RESEARCH GAP ============ -->
+<section class="slide" data-slide="5">
+  <div class="slide-content">
+    <span class="slide-tag">04 · Research Gap</span>
+    <h2 class="slide-heading">The <em>five gaps</em> we identified</h2>
+    <div class="gap-list">
+      <div class="gap-item">
+        <span class="gap-num">01</span>
+        <div><h4>Single-model instability</h4><p>One model cannot excel across all 9 lesion classes simultaneously.</p></div>
+      </div>
+      <div class="gap-item">
+        <span class="gap-num">02</span>
+        <div><h4>Class imbalance bias</h4><p>Minority classes (like melanoma) get misclassified — dangerous in medicine.</p></div>
+      </div>
+      <div class="gap-item">
+        <span class="gap-num">03</span>
+        <div><h4>Stability + interpretability rarely coexist</h4><p>Most works do one or the other. We do both.</p></div>
+      </div>
+      <div class="gap-item">
+        <span class="gap-num">04</span>
+        <div><h4>Inconsistent Grad-CAM heatmaps</h4><p>Visualizations are sometimes meaningless or off-target.</p></div>
+      </div>
+      <div class="gap-item">
+        <span class="gap-num">05</span>
+        <div><h4>Generalization fails across datasets</h4><p>Models tuned for ISIC don't transfer well to HAM10000.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 6: RESEARCH QUESTIONS & OBJECTIVES ============ -->
+<section class="slide" data-slide="6">
+  <div class="slide-content">
+    <span class="slide-tag">05 · Questions & Objectives</span>
+    <h2 class="slide-heading">What we set out to <em>answer</em></h2>
+    <div class="questions-grid">
+      <div class="q-block">
+        <h3 class="q-title">Research Questions</h3>
+        <ul class="q-list">
+          <li>Can ensemble learning beat individual CNNs on 9-class skin lesion classification?</li>
+          <li>Can self-attention over base model predictions ("tokens") improve over traditional stacking?</li>
+          <li>Can data augmentation effectively address class imbalance?</li>
+          <li>Does CNN+ViT hybrid outperform CNN ensembles on moderate datasets?</li>
+          <li>Can Grad-CAM provide trustworthy explanations for clinical use?</li>
+        </ul>
+      </div>
+      <div class="q-block q-block-accent">
+        <h3 class="q-title">Research Objectives</h3>
+        <ul class="q-list">
+          <li>Implement & compare 7 pre-trained CNNs via transfer learning</li>
+          <li>Address class imbalance with augmentation (2,500/class)</li>
+          <li>Build progressive ensembles: Soft Voting → Stacking → Token Stacking + Attention</li>
+          <li>Compare against CNN+ViT hybrid model</li>
+          <li>Integrate Grad-CAM for visual interpretability</li>
+          <li>Evaluate with 6 metrics including Cohen's Kappa</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 7: SYSTEM ARCHITECTURE ============ -->
+<section class="slide" data-slide="7">
+  <div class="slide-content">
+    <span class="slide-tag">06 · Methodology</span>
+    <h2 class="slide-heading">System <em>Architecture</em></h2>
+    <div class="architecture-flow">
+      <div class="arch-row">
+        <div class="arch-stage">
+          <div class="stage-num">1</div>
+          <div class="stage-body"><h4>Data</h4><p>ISIC dataset · 2,357 images · 9 classes</p></div>
+        </div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-stage">
+          <div class="stage-num">2</div>
+          <div class="stage-body"><h4>Preprocess</h4><p>Resize 100×75 · Normalize · One-hot encode</p></div>
+        </div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-stage">
+          <div class="stage-num">3</div>
+          <div class="stage-body"><h4>Augment</h4><p>2,500 / class · 22,500 total</p></div>
+        </div>
+      </div>
+      <div class="arch-bridge"><span class="arch-arrow-down">↓</span></div>
+      <div class="arch-row">
+        <div class="arch-stage">
+          <div class="stage-num">4</div>
+          <div class="stage-body"><h4>Train 7 CNNs</h4><p>DenseNet201 · VGG16/19 · ResNet50 · InceptionV3 · Xception · MobileNetV2</p></div>
+        </div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-stage arch-highlight">
+          <div class="stage-num">5</div>
+          <div class="stage-body"><h4>Token Stacking + Self-Attention</h4><p>DenseNet201 + VGG16 outputs as attention tokens</p></div>
+        </div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-stage">
+          <div class="stage-num">6</div>
+          <div class="stage-body"><h4>Grad-CAM</h4><p>Heatmaps for clinical interpretability</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 8: DATASET ============ -->
+<section class="slide" data-slide="8">
+  <div class="slide-content">
+    <span class="slide-tag">07 · Dataset</span>
+    <h2 class="slide-heading">The <em>ISIC</em> dataset · before & after</h2>
+    <div class="dataset-grid">
+      <div class="dataset-side">
+        <h3 class="data-side-title">Before Augmentation</h3>
+        <p class="data-side-meta">2,357 images · severely imbalanced</p>
+        <table class="data-table">
+          <tr><td>Vascular lesion</td><td class="num">142</td></tr>
+          <tr><td>Actinic keratosis</td><td class="num">130</td></tr>
+          <tr><td>Nevus</td><td class="num">373</td></tr>
+          <tr><td>Pigmented benign keratosis</td><td class="num">478</td></tr>
+          <tr><td>Melanoma</td><td class="num">454</td></tr>
+          <tr><td>Squamous cell carcinoma</td><td class="num">184</td></tr>
+          <tr><td>Basal cell carcinoma</td><td class="num">392</td></tr>
+          <tr><td>Seborrheic keratosis</td><td class="num low">93 ⚠</td></tr>
+          <tr><td>Dermatofibroma</td><td class="num">111</td></tr>
+        </table>
+      </div>
+      <div class="dataset-arrow">⟶</div>
+      <div class="dataset-side dataset-side-after">
+        <h3 class="data-side-title">After Augmentation</h3>
+        <p class="data-side-meta">22,500 images · perfectly balanced</p>
+        <table class="data-table">
+          <tr><td>All 9 classes</td><td class="num accent">2,500 each</td></tr>
+        </table>
+        <div class="data-split">
+          <h4>Final split</h4>
+          <div class="split-bar">
+            <div class="split-train">Train · 14,400 (64%)</div>
+            <div class="split-val">Val · 3,600 (16%)</div>
+            <div class="split-test">Test · 4,500 (20%)</div>
+          </div>
+        </div>
+        <p class="aug-techniques"><strong>Techniques:</strong> rotation · zoom · shift · shear · horizontal flip</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 9: PROPOSED MODEL ARCHITECTURE ============ -->
+<section class="slide" data-slide="9">
+  <div class="slide-content">
+    <span class="slide-tag">08 · Proposed Model</span>
+    <h2 class="slide-heading">Token Stacking <em>Meta Learner</em></h2>
+    <div class="proposed-model">
+      <div class="model-row">
+        <div class="model-box model-input">
+          <span class="box-label">Input</span>
+          <p>Dermoscopic Image<br>100 × 75 × 3</p>
+        </div>
+        <div class="model-arrow">→</div>
+        <div class="model-stack">
+          <div class="model-box model-cnn">
+            <span class="box-label">Base 1</span>
+            <p>DenseNet201<br><span class="prob-shape">→ p₁ ∈ ℝ⁹</span></p>
+          </div>
+          <div class="model-box model-cnn">
+            <span class="box-label">Base 2</span>
+            <p>VGG16<br><span class="prob-shape">→ p₂ ∈ ℝ⁹</span></p>
+          </div>
+        </div>
+        <div class="model-arrow">→</div>
+        <div class="model-box model-stack-box">
+          <span class="box-label">Stack as Tokens</span>
+          <p>T ∈ ℝ⁽²ˣ⁹⁾</p>
+        </div>
+      </div>
+      <div class="model-arrow-down">↓</div>
+      <div class="model-row">
+        <div class="model-box model-attention">
+          <span class="box-label">⭐ Core Innovation</span>
+          <p><strong>Multi-Head Self-Attention</strong><br>heads = 2 · learns dynamic per-class importance</p>
+        </div>
+        <div class="model-arrow">→</div>
+        <div class="model-box">
+          <span class="box-label">LayerNorm</span>
+          <p>Stabilize</p>
+        </div>
+        <div class="model-arrow">→</div>
+        <div class="model-box">
+          <span class="box-label">Flatten → Dense</span>
+          <p>32 units · ReLU</p>
+        </div>
+        <div class="model-arrow">→</div>
+        <div class="model-box model-output">
+          <span class="box-label">Output</span>
+          <p>Softmax<br>9 classes</p>
+        </div>
+      </div>
+    </div>
+    <p class="caption"><strong>Why "tokens"?</strong> Each base model's prediction is treated as a separate unit, letting attention learn <em>which model to trust for which class</em>.</p>
+  </div>
+</section>
+
+<!-- ============ SLIDE 10: KEY EQUATIONS ============ -->
+<section class="slide" data-slide="10">
+  <div class="slide-content">
+    <span class="slide-tag">09 · Mathematical Foundation</span>
+    <h2 class="slide-heading">The <em>core equations</em></h2>
+    <div class="equations-grid">
+      <div class="eq-card">
+        <span class="eq-label">Self-Attention (the heart)</span>
+        <div class="eq-math">Attention(Q, K, V) = softmax(QK<sup>T</sup> / √d<sub>k</sub>) · V</div>
+        <p class="eq-desc">Computes how much each token influences others.</p>
+      </div>
+      <div class="eq-card">
+        <span class="eq-label">Multi-Head Attention</span>
+        <div class="eq-math">MultiHead = Concat(head₁, ..., head<sub>h</sub>) · W<sup>O</sup></div>
+        <p class="eq-desc">Multiple attention views in parallel.</p>
+      </div>
+      <div class="eq-card">
+        <span class="eq-label">Token Stacking</span>
+        <div class="eq-math">T ∈ ℝ<sup>(m × K)</sup> · m=2 models, K=9 classes</div>
+        <p class="eq-desc">Probability vectors stacked as separate tokens.</p>
+      </div>
+      <div class="eq-card">
+        <span class="eq-label">Softmax Output</span>
+        <div class="eq-math">Softmax(z<sub>i</sub>) = e<sup>z<sub>i</sub></sup> / Σ<sub>j</sub> e<sup>z<sub>j</sub></sup></div>
+        <p class="eq-desc">Final probability over 9 classes.</p>
+      </div>
+      <div class="eq-card">
+        <span class="eq-label">Categorical Cross-Entropy Loss</span>
+        <div class="eq-math">L = −Σ<sub>i</sub> y<sub>i</sub> log(ŷ<sub>i</sub>)</div>
+        <p class="eq-desc">Optimization target during training.</p>
+      </div>
+      <div class="eq-card">
+        <span class="eq-label">Grad-CAM</span>
+        <div class="eq-math">L<sup>c</sup><sub>GradCAM</sub> = ReLU(Σ<sub>k</sub> α<sub>k</sub><sup>c</sup> · A<sup>k</sup>)</div>
+        <p class="eq-desc">Heatmap weighted by gradient importance.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 11: TRAINING CONFIG & ALGORITHM ============ -->
+<section class="slide" data-slide="11">
+  <div class="slide-content">
+    <span class="slide-tag">10 · Training & Algorithm</span>
+    <h2 class="slide-heading">How we <em>trained</em> it</h2>
+    <div class="train-grid">
+      <div class="train-config">
+        <h3>Training Configuration</h3>
+        <table class="config-table">
+          <tr><td>Epochs</td><td><strong>100</strong></td></tr>
+          <tr><td>Batch size</td><td><strong>32</strong></td></tr>
+          <tr><td>Optimizer</td><td><strong>SGD</strong></td></tr>
+          <tr><td>Learning rate</td><td><strong>0.001</strong></td></tr>
+          <tr><td>Momentum</td><td><strong>0.9</strong></td></tr>
+          <tr><td>Loss</td><td><strong>Categorical Cross-Entropy</strong></td></tr>
+          <tr><td>LR scheduler</td><td><strong>ReduceLROnPlateau</strong></td></tr>
+        </table>
+      </div>
+      <div class="train-algo">
+        <h3>Inference Algorithm</h3>
+        <pre class="algo-block"><span class="algo-comment">// Token Stacking Meta Learner</span>
+INPUT:  image x, models M₁, M₂
+OUTPUT: predicted class ĉ
+
+1. p₁ ← M₁(x)              <span class="algo-comment">// (9,)</span>
+2. p₂ ← M₂(x)              <span class="algo-comment">// (9,)</span>
+3. T  ← Stack(p₁, p₂)      <span class="algo-comment">// (2, 9)</span>
+4. T' ← MHAttention(T,T,T)
+5. T'' ← LayerNorm(T')
+6. f  ← Flatten(T'')
+7. h  ← Dense(32, ReLU)(f)
+8. y  ← Softmax(Dense(9))(h)
+9. ĉ  ← argmax(y)
+
+RETURN ĉ</pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 12: RESULTS — INDIVIDUAL CNNs ============ -->
+<section class="slide" data-slide="12">
+  <div class="slide-content">
+    <span class="slide-tag">11 · Results · Part 1</span>
+    <h2 class="slide-heading">Individual CNN <em>performance</em></h2>
+    <table class="results-table">
+      <thead>
+        <tr><th>Model</th><th>Accuracy</th><th>Precision</th><th>Recall</th><th>F1-Score</th><th>Kappa</th></tr>
+      </thead>
+      <tbody>
+        <tr class="winner"><td>DenseNet201 ⭐</td><td><strong>91.91%</strong></td><td>91.90%</td><td>91.87%</td><td>91.84%</td><td>0.9090</td></tr>
+        <tr class="runner-up"><td>VGG16 ⭐</td><td><strong>90.84%</strong></td><td>90.83%</td><td>90.83%</td><td>90.76%</td><td>0.8970</td></tr>
+        <tr><td>VGG19</td><td>90.44%</td><td>90.45%</td><td>90.52%</td><td>90.42%</td><td>0.8925</td></tr>
+        <tr><td>Xception</td><td>88.60%</td><td>88.71%</td><td>88.53%</td><td>88.41%</td><td>0.8717</td></tr>
+        <tr><td>InceptionV3</td><td>88.33%</td><td>88.51%</td><td>88.43%</td><td>88.43%</td><td>0.8687</td></tr>
+        <tr><td>ResNet50</td><td>87.87%</td><td>87.77%</td><td>87.82%</td><td>87.67%</td><td>0.8635</td></tr>
+        <tr><td>MobileNetV2</td><td>86.71%</td><td>86.80%</td><td>86.67%</td><td>86.41%</td><td>0.8505</td></tr>
+      </tbody>
+    </table>
+    <p class="caption">⭐ DenseNet201 and VGG16 selected as base learners. Their architectural diversity — dense connectivity vs uniform convolutions — maximizes feature complementarity.</p>
+  </div>
+</section>
+
+<!-- ============ SLIDE 13: RESULTS — ENSEMBLE ============ -->
+<section class="slide" data-slide="13">
+  <div class="slide-content">
+    <span class="slide-tag">12 · Results · Part 2</span>
+    <h2 class="slide-heading">Ensemble <em>showdown</em></h2>
+    <div class="ensemble-results">
+      <div class="bar-chart">
+        <div class="bar-row">
+          <span class="bar-label">Token Stacking + Self-Attention <strong>(Ours)</strong></span>
+          <div class="bar bar-winner" style="width: 94.16%;"><span>94.16%</span></div>
+        </div>
+        <div class="bar-row">
+          <span class="bar-label">Stacked Meta Learner</span>
+          <div class="bar" style="width: 93.91%;"><span>93.91%</span></div>
+        </div>
+        <div class="bar-row">
+          <span class="bar-label">Soft Voting Ensemble</span>
+          <div class="bar" style="width: 93.73%;"><span>93.73%</span></div>
+        </div>
+        <div class="bar-row">
+          <span class="bar-label">DenseNet201 (best individual)</span>
+          <div class="bar bar-faded" style="width: 91.91%;"><span>91.91%</span></div>
+        </div>
+        <div class="bar-row">
+          <span class="bar-label">CNN + ViT Hybrid</span>
+          <div class="bar bar-loser" style="width: 86.29%;"><span>86.29%</span></div>
+        </div>
+      </div>
+      <div class="metrics-callout">
+        <h3>Proposed Model Highlights</h3>
+        <div class="metric-grid">
+          <div class="metric"><span class="metric-num">94.16%</span><span class="metric-name">Test Accuracy</span></div>
+          <div class="metric"><span class="metric-num">94.64%</span><span class="metric-name">Precision</span></div>
+          <div class="metric"><span class="metric-num">0.997</span><span class="metric-name">Micro AUC</span></div>
+          <div class="metric"><span class="metric-num">0.995</span><span class="metric-name">Macro AUC</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 14: WHY ViT FAILED ============ -->
+<section class="slide" data-slide="14">
+  <div class="slide-content">
+    <span class="slide-tag">13 · Critical Analysis</span>
+    <h2 class="slide-heading">Why the <em>ViT hybrid</em> underperformed</h2>
+    <div class="vit-analysis">
+      <div class="vit-fact">
+        <h3 class="fact-stat">86.29%</h3>
+        <p>CNN+ViT hybrid accuracy — <strong>worst</strong> among all models tested</p>
+      </div>
+      <div class="vit-reasons">
+        <div class="reason-block">
+          <span class="reason-num">01</span>
+          <h4>Data Hunger</h4>
+          <p>Vision Transformers need <strong>millions</strong> of images to learn global feature relationships. Our 22,500 augmented images are sufficient for CNNs but insufficient for ViTs.</p>
+        </div>
+        <div class="reason-block">
+          <span class="reason-num">02</span>
+          <h4>Lack of Inductive Bias</h4>
+          <p>CNNs have built-in priors (translation invariance, locality) that suit medical images. ViTs must learn these from scratch.</p>
+        </div>
+        <div class="reason-block">
+          <span class="reason-num">03</span>
+          <h4>Increased Complexity</h4>
+          <p>Hybrid models add parameters without adding generalization. Subtle inter-class differences (melanoma vs benign keratosis) require more, not less, regularization.</p>
+        </div>
+      </div>
+    </div>
+    <p class="caption"><strong>Takeaway:</strong> For moderate-sized medical datasets, smarter combinations of CNNs beat bigger transformer-based architectures.</p>
+  </div>
+</section>
+
+<!-- ============ SLIDE 15: CONTRIBUTIONS & IMPACT ============ -->
+<section class="slide" data-slide="15">
+  <div class="slide-content">
+    <span class="slide-tag">14 · Contribution & Impact</span>
+    <h2 class="slide-heading">What we <em>contribute</em></h2>
+    <div class="contributions">
+      <div class="contrib-row">
+        <div class="contrib-card">
+          <h3>🔬 Technical</h3>
+          <ul>
+            <li>Comprehensive evaluation of 7 CNNs + 3 ensembles + 1 hybrid</li>
+            <li>Novel <strong>Token Stacking with Self-Attention</strong> framework</li>
+            <li>State-of-the-art <strong>94.16%</strong> on 9-class ISIC classification</li>
+            <li>Architecture-agnostic methodology — extends to any medical task</li>
+          </ul>
+        </div>
+        <div class="contrib-card">
+          <h3>🏥 Clinical</h3>
+          <ul>
+            <li>Aids early melanoma detection — <em>saves lives</em></li>
+            <li>Provides AI second-opinion to reduce diagnostic errors</li>
+            <li>Democratizes access in rural / resource-limited settings</li>
+            <li>Grad-CAM enables clinician verification → builds trust</li>
+          </ul>
+        </div>
+        <div class="contrib-card">
+          <h3>📚 Academic</h3>
+          <ul>
+            <li>Demonstrates attention-based stacking > traditional stacking</li>
+            <li>Empirically validates CNN superiority on moderate datasets</li>
+            <li>Reusable framework for future medical imaging research</li>
+            <li>Honest documentation of limitations & failure modes</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 16: LIMITATIONS & FUTURE WORK ============ -->
+<section class="slide" data-slide="16">
+  <div class="slide-content">
+    <span class="slide-tag">15 · Honesty</span>
+    <h2 class="slide-heading"><em>Limitations</em> & where we go next</h2>
+    <div class="limit-grid">
+      <div class="limit-side">
+        <h3 class="lim-title">Acknowledged Limitations</h3>
+        <ul class="lim-list">
+          <li><strong>Single dataset.</strong> Generalization to HAM10000 not yet tested.</li>
+          <li><strong>Higher compute cost</strong> than individual CNNs.</li>
+          <li><strong>Grad-CAM localization</strong> isn't perfect — sometimes off-target.</li>
+          <li><strong>No clinical validation</strong> conducted yet.</li>
+          <li><strong>Closed-set classification</strong> — can't detect new lesion types.</li>
+        </ul>
+      </div>
+      <div class="limit-side limit-side-future">
+        <h3 class="lim-title">Future Directions</h3>
+        <ul class="lim-list">
+          <li>Cross-dataset validation on <strong>HAM10000</strong></li>
+          <li>Add <strong>third base learner</strong> with different inductive biases</li>
+          <li>Test on <strong>EfficientNet, ConvNeXt, Swin Transformer</strong></li>
+          <li>Lightweight ensemble for <strong>real-time mobile deployment</strong></li>
+          <li><strong>Clinical validation</strong> with partner hospitals</li>
+          <li>Out-of-distribution detection for <strong>open-set recognition</strong></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 17: THANK YOU / Q&A ============ -->
+<section class="slide slide-end" data-slide="17">
+  <div class="end-content">
+    <div class="end-mark">END · Q&A</div>
+    <h2 class="end-heading">Thank <em>you</em>.</h2>
+    <p class="end-quote">"For moderate-sized medical datasets, the future isn't bigger models — it's <em>smarter combinations</em> of existing ones."</p>
+    <div class="end-stats">
+      <div class="end-stat"><span>94.16%</span><label>Final Accuracy</label></div>
+      <div class="end-stat"><span>9</span><label>Lesion Classes</label></div>
+      <div class="end-stat"><span>22,500</span><label>Training Images</label></div>
+      <div class="end-stat"><span>11</span><label>Models Compared</label></div>
+    </div>
+    <div class="end-team">
+      <p>Mohammed Moin Uddin · Mir Md. Ejajul Hoque Eju · Md. Minhajul Islam Rahat</p>
+      <p class="end-sub">Supervised by Mr. Mohammad Mahadi Hassan · CSE · IIUC</p>
+    </div>
+    <p class="end-prompt">We welcome your questions.</p>
+  </div>
+</section>
+
+</div> <!-- /slides-container -->
+
+<!-- Side navigation arrows -->
+<button class="nav-arrow nav-prev" id="prevBtn" aria-label="Previous slide">←</button>
+<button class="nav-arrow nav-next" id="nextBtn" aria-label="Next slide">→</button>
+
+<script src="script.js"></script>
+</body>
+</html>
