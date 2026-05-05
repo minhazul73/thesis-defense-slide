@@ -413,50 +413,10 @@
   </div>
 </section>
 
-<!-- ============ SLIDE 10: KEY EQUATIONS ============ -->
+<!-- ============ SLIDE 10: TRAINING CONFIG & ALGORITHM ============ -->
 <section class="slide" data-slide="10">
   <div class="slide-content">
-    <span class="slide-tag">09 · Mathematical Foundation</span>
-    <h2 class="slide-heading">The <em>core equations</em></h2>
-    <div class="equations-grid">
-      <div class="eq-card">
-        <span class="eq-label">Self-Attention (the heart)</span>
-        <div class="eq-math">Attention(Q, K, V) = softmax(QK<sup>T</sup> / √d<sub>k</sub>) · V</div>
-        <p class="eq-desc">Computes how much each token influences others.</p>
-      </div>
-      <div class="eq-card">
-        <span class="eq-label">Multi-Head Attention</span>
-        <div class="eq-math">MultiHead = Concat(head₁, ..., head<sub>h</sub>) · W<sup>O</sup></div>
-        <p class="eq-desc">Multiple attention views in parallel.</p>
-      </div>
-      <div class="eq-card">
-        <span class="eq-label">Token Stacking</span>
-        <div class="eq-math">T ∈ ℝ<sup>(m × K)</sup> · m=2 models, K=9 classes</div>
-        <p class="eq-desc">Probability vectors stacked as separate tokens.</p>
-      </div>
-      <div class="eq-card">
-        <span class="eq-label">Softmax Output</span>
-        <div class="eq-math">Softmax(z<sub>i</sub>) = e<sup>z<sub>i</sub></sup> / Σ<sub>j</sub> e<sup>z<sub>j</sub></sup></div>
-        <p class="eq-desc">Final probability over 9 classes.</p>
-      </div>
-      <div class="eq-card">
-        <span class="eq-label">Categorical Cross-Entropy Loss</span>
-        <div class="eq-math">L = −Σ<sub>i</sub> y<sub>i</sub> log(ŷ<sub>i</sub>)</div>
-        <p class="eq-desc">Optimization target during training.</p>
-      </div>
-      <div class="eq-card">
-        <span class="eq-label">Grad-CAM</span>
-        <div class="eq-math">L<sup>c</sup><sub>GradCAM</sub> = ReLU(Σ<sub>k</sub> α<sub>k</sub><sup>c</sup> · A<sup>k</sup>)</div>
-        <p class="eq-desc">Heatmap weighted by gradient importance.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ SLIDE 11: TRAINING CONFIG & ALGORITHM ============ -->
-<section class="slide" data-slide="11">
-  <div class="slide-content">
-    <span class="slide-tag">10 · Training & Algorithm</span>
+    <span class="slide-tag">09 · Training & Algorithm</span>
     <h2 class="slide-heading">How we <em>trained</em> it</h2>
     <div class="train-grid">
       <div class="train-config">
@@ -493,10 +453,10 @@ RETURN ĉ</pre>
   </div>
 </section>
 
-<!-- ============ SLIDE 12: DenseNet201 RESULTS ============ -->
-<section class="slide" data-slide="12">
+<!-- ============ SLIDE 11: DenseNet201 RESULTS ============ -->
+<section class="slide" data-slide="11">
   <div class="slide-content model-result-content">
-    <span class="slide-tag">11 · DenseNet201 Results</span>
+    <span class="slide-tag">10 · DenseNet201 Results</span>
     <h2 class="slide-heading model-result-heading">DenseNet201 — <em>91.91%</em> Test Accuracy</h2>
     <div class="model-result-grid">
       <div class="model-result-panel">
@@ -521,10 +481,10 @@ RETURN ĉ</pre>
   </div>
 </section>
 
-<!-- ============ SLIDE 13: VGG16 RESULTS ============ -->
-<section class="slide" data-slide="13">
+<!-- ============ SLIDE 12: VGG16 RESULTS ============ -->
+<section class="slide" data-slide="12">
   <div class="slide-content model-result-content">
-    <span class="slide-tag">12 · VGG16 Results</span>
+    <span class="slide-tag">11 · VGG16 Results</span>
     <h2 class="slide-heading model-result-heading">VGG16 — <em>90.84%</em> Test Accuracy</h2>
     <div class="model-result-grid">
       <div class="model-result-panel">
@@ -549,10 +509,10 @@ RETURN ĉ</pre>
   </div>
 </section>
 
-<!-- ============ SLIDE 14: VGG19 RESULTS ============ -->
-<section class="slide" data-slide="14">
+<!-- ============ SLIDE 13: VGG19 RESULTS ============ -->
+<section class="slide" data-slide="13">
   <div class="slide-content model-result-content">
-    <span class="slide-tag">13 · VGG19 Results</span>
+    <span class="slide-tag">12 · VGG19 Results</span>
     <h2 class="slide-heading model-result-heading">VGG19 — <em>90.44%</em> Test Accuracy</h2>
     <div class="model-result-grid">
       <div class="model-result-panel">
@@ -577,10 +537,10 @@ RETURN ĉ</pre>
   </div>
 </section>
 
-<!-- ============ SLIDE 15: RESULTS — INDIVIDUAL CNNs ============ -->
-<section class="slide" data-slide="15">
+<!-- ============ SLIDE 14: RESULTS — INDIVIDUAL CNNs ============ -->
+<section class="slide" data-slide="14">
   <div class="slide-content">
-    <span class="slide-tag">14 · Results · Part 1</span>
+    <span class="slide-tag">13 · Results · Part 1</span>
     <h2 class="slide-heading">Individual CNN <em>performance</em></h2>
     <table class="results-table">
       <thead>
@@ -600,11 +560,115 @@ RETURN ĉ</pre>
   </div>
 </section>
 
-<!-- ============ SLIDE 16: PROPOSED MODEL ARCHITECTURE ============ -->
+<!-- ============ SLIDE 15: SOFT VOTING ENSEMBLE ============ -->
+<section class="slide" data-slide="15">
+  <div class="slide-content ens-slide-content">
+    <span class="slide-tag">14 · Ensemble · Soft Voting</span>
+    <h2 class="slide-heading ens-heading">Soft Voting <em>Ensemble</em></h2>
+
+    <div class="ens-base-bar">
+      <span class="ens-base-label">Base Learners:</span>
+      <span class="ens-base-pill ens-pill-dense">DenseNet201 — 91.91%</span>
+      <span class="ens-base-plus">+</span>
+      <span class="ens-base-pill ens-pill-vgg">VGG16 — 90.84%</span>
+    </div>
+
+    <div class="ens-body">
+      <!-- LEFT: How it works -->
+      <div class="ens-left">
+        <h4 class="ens-section-title">How It Works</h4>
+        <p class="ens-desc">Each base model outputs a probability vector over 9 classes. Soft voting averages these vectors to produce the final prediction — no learning required.</p>
+        <div class="ens-formula-box">
+          <div class="ens-formula">p<sub>final</sub> = (p<sub>1</sub> + p<sub>2</sub>) / 2</div>
+          <div class="ens-formula">ĉ = argmax<sub>k</sub> p<sub>final</sub>[k]</div>
+        </div>
+        <p class="ens-note">Drawback: both models receive equal weight regardless of per-class confidence.</p>
+        <div class="ens-accuracy-badge">
+          <span class="ens-acc-num">93.73%</span>
+          <span class="ens-acc-lbl">Test Accuracy</span>
+        </div>
+        <div class="ens-auc-row">
+          <div class="ens-auc-item"><span>Micro AUC</span><strong>0.996</strong></div>
+          <div class="ens-auc-item"><span>Macro AUC</span><strong>0.994</strong></div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Per-class recall bars -->
+      <div class="ens-right">
+        <h4 class="ens-section-title">Per-Class Recall</h4>
+        <div class="ens-class-bars">
+          <div class="ens-bar-row"><span class="ens-bar-label">Vascular lesion</span><div class="ens-bar-track"><div class="ens-bar-fill" style="width:100%">1.00</div></div></div>
+          <div class="ens-bar-row"><span class="ens-bar-label">Actinic keratosis</span><div class="ens-bar-track"><div class="ens-bar-fill" style="width:94%">0.94</div></div></div>
+          <div class="ens-bar-row"><span class="ens-bar-label">Nevus</span><div class="ens-bar-track"><div class="ens-bar-fill ens-bar-low" style="width:81%">0.81</div></div></div>
+          <div class="ens-bar-row"><span class="ens-bar-label">Pigmented BK</span><div class="ens-bar-track"><div class="ens-bar-fill" style="width:97%">0.97</div></div></div>
+          <div class="ens-bar-row"><span class="ens-bar-label">Melanoma</span><div class="ens-bar-track"><div class="ens-bar-fill ens-bar-low" style="width:81%">0.81</div></div></div>
+          <div class="ens-bar-row"><span class="ens-bar-label">Squamous CC</span><div class="ens-bar-track"><div class="ens-bar-fill" style="width:99%">0.99</div></div></div>
+          <div class="ens-bar-row"><span class="ens-bar-label">Basal CC</span><div class="ens-bar-track"><div class="ens-bar-fill" style="width:98%">0.98</div></div></div>
+          <div class="ens-bar-row"><span class="ens-bar-label">Seborrheic K.</span><div class="ens-bar-track"><div class="ens-bar-fill" style="width:94%">0.94</div></div></div>
+          <div class="ens-bar-row"><span class="ens-bar-label">Dermatofibroma</span><div class="ens-bar-track"><div class="ens-bar-fill" style="width:100%">1.00</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 16: STACKED META LEARNER ============ -->
 <section class="slide" data-slide="16">
+  <div class="slide-content ens-slide-content">
+    <span class="slide-tag">15 · Ensemble · Meta Learner</span>
+    <h2 class="slide-heading ens-heading">Stacked <em>Meta Learner</em></h2>
+
+    <div class="ens-base-bar">
+      <span class="ens-base-label">Base Learners:</span>
+      <span class="ens-base-pill ens-pill-dense">DenseNet201 — 91.91%</span>
+      <span class="ens-base-plus">+</span>
+      <span class="ens-base-pill ens-pill-vgg">VGG16 — 90.84%</span>
+    </div>
+
+    <div class="ens-body">
+      <!-- LEFT: How it works -->
+      <div class="ens-left">
+        <h4 class="ens-section-title">How It Works</h4>
+        <p class="ens-desc">Base model probability outputs are concatenated into meta-features. A small neural network (meta-learner) is then trained on these meta-features to learn the optimal combination rule.</p>
+        <div class="ens-formula-box">
+          <div class="ens-formula">X<sub>meta</sub> = [p<sub>1</sub> ‖ p<sub>2</sub>] ∈ ℝ<sup>18</sup></div>
+          <div class="ens-formula-sub">Meta-Learner: Dense(64) → Dense(9, softmax)</div>
+        </div>
+        <p class="ens-note">Improvement: learns a non-linear combination — but treats all class positions equally.</p>
+        <div class="ens-accuracy-badge ens-badge-meta">
+          <span class="ens-acc-num">93.91%</span>
+          <span class="ens-acc-lbl">Test Accuracy <em>+0.18% vs Soft Voting</em></span>
+        </div>
+        <div class="ens-auc-row">
+          <div class="ens-auc-item"><span>Micro AUC</span><strong>0.998</strong></div>
+          <div class="ens-auc-item"><span>Macro AUC</span><strong>0.995</strong></div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Per-class recall bars -->
+      <div class="ens-right">
+        <h4 class="ens-section-title">Per-Class Recall</h4>
+        <div class="ens-class-bars">
+          <div class="ens-bar-row"><span class="ens-bar-label">Vascular lesion</span><div class="ens-bar-track"><div class="ens-bar-fill" style="width:100%">1.00</div></div></div>
+          <div class="ens-bar-row"><span class="ens-bar-label">Actinic keratosis</span><div class="ens-bar-track"><div class="ens-bar-fill" style="width:98%">0.98</div></div></div>
+          <div class="ens-bar-row"><span class="ens-bar-label">Nevus</span><div class="ens-bar-track"><div class="ens-bar-fill ens-bar-low" style="width:75%">0.75</div></div></div>
+          <div class="ens-bar-row"><span class="ens-bar-label">Pigmented BK</span><div class="ens-bar-track"><div class="ens-bar-fill" style="width:98%">0.98</div></div></div>
+          <div class="ens-bar-row"><span class="ens-bar-label">Melanoma</span><div class="ens-bar-track"><div class="ens-bar-fill ens-bar-low" style="width:79%">0.79</div></div></div>
+          <div class="ens-bar-row"><span class="ens-bar-label">Squamous CC</span><div class="ens-bar-track"><div class="ens-bar-fill" style="width:98%">0.98</div></div></div>
+          <div class="ens-bar-row"><span class="ens-bar-label">Basal CC</span><div class="ens-bar-track"><div class="ens-bar-fill" style="width:99%">0.99</div></div></div>
+          <div class="ens-bar-row"><span class="ens-bar-label">Seborrheic K.</span><div class="ens-bar-track"><div class="ens-bar-fill" style="width:99%">0.99</div></div></div>
+          <div class="ens-bar-row"><span class="ens-bar-label">Dermatofibroma</span><div class="ens-bar-track"><div class="ens-bar-fill" style="width:100%">1.00</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 17: PROPOSED MODEL ARCHITECTURE ============ -->
+<section class="slide" data-slide="17">
   <div class="slide-content a2-slide-content">
     <div class="a2-header">
-      <span class="slide-tag">15 · Proposed Model</span>
+      <span class="slide-tag">16 · Proposed Model</span>
       <h2 class="slide-heading a2-heading">Token Stacking <em>Meta Learner</em> — Architecture</h2>
     </div>
 
@@ -717,10 +781,41 @@ RETURN ĉ</pre>
   </div>
 </section>
 
-<!-- ============ SLIDE 17: RESULTS — ENSEMBLE ============ -->
-<section class="slide" data-slide="17">
+<!-- ============ SLIDE 18: TOKEN STACKING + SELF-ATTENTION RESULTS ============ -->
+<section class="slide" data-slide="18">
+  <div class="slide-content ens-token-content">
+    <div class="ens-token-header">
+      <span class="slide-tag">17 · Ensemble · Token Stacking</span>
+      <h2 class="slide-heading ens-heading">Token Stacking <em>+ Self-Attention</em> — Results</h2>
+      <div class="ens-base-bar">
+        <span class="ens-base-label">Base Learners:</span>
+        <span class="ens-base-pill ens-pill-dense">DenseNet201 — 91.91%</span>
+        <span class="ens-base-plus">+</span>
+        <span class="ens-base-pill ens-pill-vgg">VGG16 — 90.84%</span>
+        <span class="ens-token-badge">Best Model ★ 94.16%</span>
+      </div>
+    </div>
+    <div class="ens-token-plots">
+      <div class="ens-token-panel">
+        <h4 class="panel-title">Training vs Validation Accuracy</h4>
+        <div class="panel-img-wrap"><img src="assets/ensemble_img2.png" alt="Token Stacking Training Accuracy" class="result-img"></div>
+      </div>
+      <div class="ens-token-panel">
+        <h4 class="panel-title">Normalized Confusion Matrix</h4>
+        <div class="panel-img-wrap"><img src="assets/ensemble_img4.png" alt="Token Stacking Confusion Matrix" class="result-img"></div>
+      </div>
+      <div class="ens-token-panel">
+        <h4 class="panel-title">ROC Curves (Micro AUC 0.997)</h4>
+        <div class="panel-img-wrap"><img src="assets/ensemble_img5.png" alt="Token Stacking ROC Curve" class="result-img"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 19: RESULTS — ENSEMBLE ============ -->
+<section class="slide" data-slide="19">
   <div class="slide-content">
-    <span class="slide-tag">16 · Results · Part 2</span>
+    <span class="slide-tag">18 · Results · Part 2</span>
     <h2 class="slide-heading">Ensemble <em>showdown</em></h2>
     <div class="ensemble-results">
       <div class="bar-chart">
@@ -758,10 +853,10 @@ RETURN ĉ</pre>
   </div>
 </section>
 
-<!-- ============ SLIDE 18: WHY ViT FAILED ============ -->
-<section class="slide" data-slide="18">
+<!-- ============ SLIDE 20: WHY ViT FAILED ============ -->
+<section class="slide" data-slide="20">
   <div class="slide-content">
-    <span class="slide-tag">17 · Critical Analysis</span>
+    <span class="slide-tag">19 · Critical Analysis</span>
     <h2 class="slide-heading">Why the <em>ViT hybrid</em> underperformed</h2>
     <div class="vit-analysis">
       <div class="vit-fact">
@@ -790,10 +885,50 @@ RETURN ĉ</pre>
   </div>
 </section>
 
-<!-- ============ SLIDE 19: CONTRIBUTIONS & IMPACT ============ -->
-<section class="slide" data-slide="19">
+<!-- ============ SLIDE 21: KEY EQUATIONS ============ -->
+<section class="slide" data-slide="21">
   <div class="slide-content">
-    <span class="slide-tag">18 · Contribution & Impact</span>
+    <span class="slide-tag">20 · Mathematical Foundation</span>
+    <h2 class="slide-heading">The <em>core equations</em></h2>
+    <div class="equations-grid">
+      <div class="eq-card">
+        <span class="eq-label">Self-Attention (the heart)</span>
+        <div class="eq-math">Attention(Q, K, V) = softmax(QK<sup>T</sup> / √d<sub>k</sub>) · V</div>
+        <p class="eq-desc">Computes how much each token influences others.</p>
+      </div>
+      <div class="eq-card">
+        <span class="eq-label">Multi-Head Attention</span>
+        <div class="eq-math">MultiHead = Concat(head₁, ..., head<sub>h</sub>) · W<sup>O</sup></div>
+        <p class="eq-desc">Multiple attention views in parallel.</p>
+      </div>
+      <div class="eq-card">
+        <span class="eq-label">Token Stacking</span>
+        <div class="eq-math">T ∈ ℝ<sup>(m × K)</sup> · m=2 models, K=9 classes</div>
+        <p class="eq-desc">Probability vectors stacked as separate tokens.</p>
+      </div>
+      <div class="eq-card">
+        <span class="eq-label">Softmax Output</span>
+        <div class="eq-math">Softmax(z<sub>i</sub>) = e<sup>z<sub>i</sub></sup> / Σ<sub>j</sub> e<sup>z<sub>j</sub></sup></div>
+        <p class="eq-desc">Final probability over 9 classes.</p>
+      </div>
+      <div class="eq-card">
+        <span class="eq-label">Categorical Cross-Entropy Loss</span>
+        <div class="eq-math">L = −Σ<sub>i</sub> y<sub>i</sub> log(ŷ<sub>i</sub>)</div>
+        <p class="eq-desc">Optimization target during training.</p>
+      </div>
+      <div class="eq-card">
+        <span class="eq-label">Grad-CAM</span>
+        <div class="eq-math">L<sup>c</sup><sub>GradCAM</sub> = ReLU(Σ<sub>k</sub> α<sub>k</sub><sup>c</sup> · A<sup>k</sup>)</div>
+        <p class="eq-desc">Heatmap weighted by gradient importance.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 22: CONTRIBUTIONS & IMPACT ============ -->
+<section class="slide" data-slide="22">
+  <div class="slide-content">
+    <span class="slide-tag">21 · Contribution & Impact</span>
     <h2 class="slide-heading">What we <em>contribute</em></h2>
     <div class="contributions">
       <div class="contrib-row">
@@ -829,10 +964,10 @@ RETURN ĉ</pre>
   </div>
 </section>
 
-<!-- ============ SLIDE 20: LIMITATIONS & FUTURE WORK ============ -->
-<section class="slide" data-slide="20">
+<!-- ============ SLIDE 23: LIMITATIONS & FUTURE WORK ============ -->
+<section class="slide" data-slide="23">
   <div class="slide-content">
-    <span class="slide-tag">19 · Honesty</span>
+    <span class="slide-tag">22 · Honesty</span>
     <h2 class="slide-heading"><em>Limitations</em> & where we go next</h2>
     <div class="limit-grid">
       <div class="limit-side">
@@ -860,8 +995,8 @@ RETURN ĉ</pre>
   </div>
 </section>
 
-<!-- ============ SLIDE 21: THANK YOU / Q&A ============ -->
-<section class="slide slide-end" data-slide="21">
+<!-- ============ SLIDE 24: THANK YOU / Q&A ============ -->
+<section class="slide slide-end" data-slide="24">
   <div class="end-content">
     <div class="end-mark">END · Q&A</div>
     <h2 class="end-heading">Thank <em>you</em>.</h2>
