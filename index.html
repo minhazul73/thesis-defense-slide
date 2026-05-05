@@ -413,11 +413,114 @@
   </div>
 </section>
 
-<!-- ============ SLIDE 10: PROPOSED MODEL ARCHITECTURE ============ -->
+<!-- ============ SLIDE 10: KEY EQUATIONS ============ -->
 <section class="slide" data-slide="10">
+  <div class="slide-content">
+    <span class="slide-tag">09 · Mathematical Foundation</span>
+    <h2 class="slide-heading">The <em>core equations</em></h2>
+    <div class="equations-grid">
+      <div class="eq-card">
+        <span class="eq-label">Self-Attention (the heart)</span>
+        <div class="eq-math">Attention(Q, K, V) = softmax(QK<sup>T</sup> / √d<sub>k</sub>) · V</div>
+        <p class="eq-desc">Computes how much each token influences others.</p>
+      </div>
+      <div class="eq-card">
+        <span class="eq-label">Multi-Head Attention</span>
+        <div class="eq-math">MultiHead = Concat(head₁, ..., head<sub>h</sub>) · W<sup>O</sup></div>
+        <p class="eq-desc">Multiple attention views in parallel.</p>
+      </div>
+      <div class="eq-card">
+        <span class="eq-label">Token Stacking</span>
+        <div class="eq-math">T ∈ ℝ<sup>(m × K)</sup> · m=2 models, K=9 classes</div>
+        <p class="eq-desc">Probability vectors stacked as separate tokens.</p>
+      </div>
+      <div class="eq-card">
+        <span class="eq-label">Softmax Output</span>
+        <div class="eq-math">Softmax(z<sub>i</sub>) = e<sup>z<sub>i</sub></sup> / Σ<sub>j</sub> e<sup>z<sub>j</sub></sup></div>
+        <p class="eq-desc">Final probability over 9 classes.</p>
+      </div>
+      <div class="eq-card">
+        <span class="eq-label">Categorical Cross-Entropy Loss</span>
+        <div class="eq-math">L = −Σ<sub>i</sub> y<sub>i</sub> log(ŷ<sub>i</sub>)</div>
+        <p class="eq-desc">Optimization target during training.</p>
+      </div>
+      <div class="eq-card">
+        <span class="eq-label">Grad-CAM</span>
+        <div class="eq-math">L<sup>c</sup><sub>GradCAM</sub> = ReLU(Σ<sub>k</sub> α<sub>k</sub><sup>c</sup> · A<sup>k</sup>)</div>
+        <p class="eq-desc">Heatmap weighted by gradient importance.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 11: TRAINING CONFIG & ALGORITHM ============ -->
+<section class="slide" data-slide="11">
+  <div class="slide-content">
+    <span class="slide-tag">10 · Training & Algorithm</span>
+    <h2 class="slide-heading">How we <em>trained</em> it</h2>
+    <div class="train-grid">
+      <div class="train-config">
+        <h3>Training Configuration</h3>
+        <table class="config-table">
+          <tr><td>Epochs</td><td><strong>100</strong></td></tr>
+          <tr><td>Batch size</td><td><strong>32</strong></td></tr>
+          <tr><td>Optimizer</td><td><strong>SGD</strong></td></tr>
+          <tr><td>Learning rate</td><td><strong>0.001</strong></td></tr>
+          <tr><td>Momentum</td><td><strong>0.9</strong></td></tr>
+          <tr><td>Loss</td><td><strong>Categorical Cross-Entropy</strong></td></tr>
+          <tr><td>LR scheduler</td><td><strong>ReduceLROnPlateau</strong></td></tr>
+        </table>
+      </div>
+      <div class="train-algo">
+        <h3>Inference Algorithm</h3>
+        <pre class="algo-block"><span class="algo-comment">// Token Stacking Meta Learner</span>
+INPUT:  image x, models M₁, M₂
+OUTPUT: predicted class ĉ
+
+1. p₁ ← M₁(x)              <span class="algo-comment">// (9,)</span>
+2. p₂ ← M₂(x)              <span class="algo-comment">// (9,)</span>
+3. T  ← Stack(p₁, p₂)      <span class="algo-comment">// (2, 9)</span>
+4. T' ← MHAttention(T,T,T)
+5. T'' ← LayerNorm(T')
+6. f  ← Flatten(T'')
+7. h  ← Dense(32, ReLU)(f)
+8. y  ← Softmax(Dense(9))(h)
+9. ĉ  ← argmax(y)
+
+RETURN ĉ</pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 12: RESULTS — INDIVIDUAL CNNs ============ -->
+<section class="slide" data-slide="12">
+  <div class="slide-content">
+    <span class="slide-tag">11 · Results · Part 1</span>
+    <h2 class="slide-heading">Individual CNN <em>performance</em></h2>
+    <table class="results-table">
+      <thead>
+        <tr><th>Model</th><th>Accuracy</th><th>Precision</th><th>Recall</th><th>F1-Score</th><th>Kappa</th></tr>
+      </thead>
+      <tbody>
+        <tr class="winner"><td>DenseNet201 ⭐</td><td><strong>91.91%</strong></td><td>91.90%</td><td>91.87%</td><td>91.84%</td><td>0.9090</td></tr>
+        <tr class="runner-up"><td>VGG16 ⭐</td><td><strong>90.84%</strong></td><td>90.83%</td><td>90.83%</td><td>90.76%</td><td>0.8970</td></tr>
+        <tr><td>VGG19</td><td>90.44%</td><td>90.45%</td><td>90.52%</td><td>90.42%</td><td>0.8925</td></tr>
+        <tr><td>Xception</td><td>88.60%</td><td>88.71%</td><td>88.53%</td><td>88.41%</td><td>0.8717</td></tr>
+        <tr><td>InceptionV3</td><td>88.33%</td><td>88.51%</td><td>88.43%</td><td>88.43%</td><td>0.8687</td></tr>
+        <tr><td>ResNet50</td><td>87.87%</td><td>87.77%</td><td>87.82%</td><td>87.67%</td><td>0.8635</td></tr>
+        <tr><td>MobileNetV2</td><td>86.71%</td><td>86.80%</td><td>86.67%</td><td>86.41%</td><td>0.8505</td></tr>
+      </tbody>
+    </table>
+    <p class="caption">⭐ DenseNet201 and VGG16 selected as base learners. Their architectural diversity — dense connectivity vs uniform convolutions — maximizes feature complementarity.</p>
+  </div>
+</section>
+
+<!-- ============ SLIDE 13: PROPOSED MODEL ARCHITECTURE ============ -->
+<section class="slide" data-slide="13">
   <div class="slide-content a2-slide-content">
     <div class="a2-header">
-      <span class="slide-tag">09 · Proposed Model</span>
+      <span class="slide-tag">12 · Proposed Model</span>
       <h2 class="slide-heading a2-heading">Token Stacking <em>Meta Learner</em> — Architecture</h2>
     </div>
 
@@ -510,7 +613,7 @@
       <!-- VERTICAL PROCESSING BLOCKS -->
       <div class="a2-process-row">
         <div class="a2-proc a2-proc-mha">
-          <span class="a2-vert-text">Self Attention Layer · Head = 2 · Learns model importance weights</span>
+          <span class="a2-vert-text">Multihead Attention Layer · Head = 2 · Learns model importance weights</span>
         </div>
         <div class="a2-proc a2-proc-ln">
           <span class="a2-vert-text">Layer Normalization</span>
@@ -527,109 +630,6 @@
       </div>
 
     </div><!-- /a2-diagram -->
-  </div>
-</section>
-
-<!-- ============ SLIDE 11: KEY EQUATIONS ============ -->
-<section class="slide" data-slide="11">
-  <div class="slide-content">
-    <span class="slide-tag">10 · Mathematical Foundation</span>
-    <h2 class="slide-heading">The <em>core equations</em></h2>
-    <div class="equations-grid">
-      <div class="eq-card">
-        <span class="eq-label">Self-Attention (the heart)</span>
-        <div class="eq-math">Attention(Q, K, V) = softmax(QK<sup>T</sup> / √d<sub>k</sub>) · V</div>
-        <p class="eq-desc">Computes how much each token influences others.</p>
-      </div>
-      <div class="eq-card">
-        <span class="eq-label">Multi-Head Attention</span>
-        <div class="eq-math">MultiHead = Concat(head₁, ..., head<sub>h</sub>) · W<sup>O</sup></div>
-        <p class="eq-desc">Multiple attention views in parallel.</p>
-      </div>
-      <div class="eq-card">
-        <span class="eq-label">Token Stacking</span>
-        <div class="eq-math">T ∈ ℝ<sup>(m × K)</sup> · m=2 models, K=9 classes</div>
-        <p class="eq-desc">Probability vectors stacked as separate tokens.</p>
-      </div>
-      <div class="eq-card">
-        <span class="eq-label">Softmax Output</span>
-        <div class="eq-math">Softmax(z<sub>i</sub>) = e<sup>z<sub>i</sub></sup> / Σ<sub>j</sub> e<sup>z<sub>j</sub></sup></div>
-        <p class="eq-desc">Final probability over 9 classes.</p>
-      </div>
-      <div class="eq-card">
-        <span class="eq-label">Categorical Cross-Entropy Loss</span>
-        <div class="eq-math">L = −Σ<sub>i</sub> y<sub>i</sub> log(ŷ<sub>i</sub>)</div>
-        <p class="eq-desc">Optimization target during training.</p>
-      </div>
-      <div class="eq-card">
-        <span class="eq-label">Grad-CAM</span>
-        <div class="eq-math">L<sup>c</sup><sub>GradCAM</sub> = ReLU(Σ<sub>k</sub> α<sub>k</sub><sup>c</sup> · A<sup>k</sup>)</div>
-        <p class="eq-desc">Heatmap weighted by gradient importance.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ SLIDE 12: TRAINING CONFIG & ALGORITHM ============ -->
-<section class="slide" data-slide="12">
-  <div class="slide-content">
-    <span class="slide-tag">11 · Training & Algorithm</span>
-    <h2 class="slide-heading">How we <em>trained</em> it</h2>
-    <div class="train-grid">
-      <div class="train-config">
-        <h3>Training Configuration</h3>
-        <table class="config-table">
-          <tr><td>Epochs</td><td><strong>100</strong></td></tr>
-          <tr><td>Batch size</td><td><strong>32</strong></td></tr>
-          <tr><td>Optimizer</td><td><strong>SGD</strong></td></tr>
-          <tr><td>Learning rate</td><td><strong>0.001</strong></td></tr>
-          <tr><td>Momentum</td><td><strong>0.9</strong></td></tr>
-          <tr><td>Loss</td><td><strong>Categorical Cross-Entropy</strong></td></tr>
-          <tr><td>LR scheduler</td><td><strong>ReduceLROnPlateau</strong></td></tr>
-        </table>
-      </div>
-      <div class="train-algo">
-        <h3>Inference Algorithm</h3>
-        <pre class="algo-block"><span class="algo-comment">// Token Stacking Meta Learner</span>
-INPUT:  image x, models M₁, M₂
-OUTPUT: predicted class ĉ
-
-1. p₁ ← M₁(x)              <span class="algo-comment">// (9,)</span>
-2. p₂ ← M₂(x)              <span class="algo-comment">// (9,)</span>
-3. T  ← Stack(p₁, p₂)      <span class="algo-comment">// (2, 9)</span>
-4. T' ← MHAttention(T,T,T)
-5. T'' ← LayerNorm(T')
-6. f  ← Flatten(T'')
-7. h  ← Dense(32, ReLU)(f)
-8. y  ← Softmax(Dense(9))(h)
-9. ĉ  ← argmax(y)
-
-RETURN ĉ</pre>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ SLIDE 13: RESULTS — INDIVIDUAL CNNs ============ -->
-<section class="slide" data-slide="13">
-  <div class="slide-content">
-    <span class="slide-tag">12 · Results · Part 1</span>
-    <h2 class="slide-heading">Individual CNN <em>performance</em></h2>
-    <table class="results-table">
-      <thead>
-        <tr><th>Model</th><th>Accuracy</th><th>Precision</th><th>Recall</th><th>F1-Score</th><th>Kappa</th></tr>
-      </thead>
-      <tbody>
-        <tr class="winner"><td>DenseNet201 ⭐</td><td><strong>91.91%</strong></td><td>91.90%</td><td>91.87%</td><td>91.84%</td><td>0.9090</td></tr>
-        <tr class="runner-up"><td>VGG16 ⭐</td><td><strong>90.84%</strong></td><td>90.83%</td><td>90.83%</td><td>90.76%</td><td>0.8970</td></tr>
-        <tr><td>VGG19</td><td>90.44%</td><td>90.45%</td><td>90.52%</td><td>90.42%</td><td>0.8925</td></tr>
-        <tr><td>Xception</td><td>88.60%</td><td>88.71%</td><td>88.53%</td><td>88.41%</td><td>0.8717</td></tr>
-        <tr><td>InceptionV3</td><td>88.33%</td><td>88.51%</td><td>88.43%</td><td>88.43%</td><td>0.8687</td></tr>
-        <tr><td>ResNet50</td><td>87.87%</td><td>87.77%</td><td>87.82%</td><td>87.67%</td><td>0.8635</td></tr>
-        <tr><td>MobileNetV2</td><td>86.71%</td><td>86.80%</td><td>86.67%</td><td>86.41%</td><td>0.8505</td></tr>
-      </tbody>
-    </table>
-    <p class="caption">⭐ DenseNet201 and VGG16 selected as base learners. Their architectural diversity — dense connectivity vs uniform convolutions — maximizes feature complementarity.</p>
   </div>
 </section>
 
