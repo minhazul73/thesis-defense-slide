@@ -56,7 +56,7 @@
     nextBtn.disabled = currentIndex === totalSlides - 1;
 
     // Re-trigger bar chart animations on results slide
-    if (slides[currentIndex].dataset.slide === '13') {
+    if (slides[currentIndex].dataset.slide === '14') {
       const bars = slides[currentIndex].querySelectorAll('.bar');
       bars.forEach((bar, i) => {
         bar.style.animation = 'none';

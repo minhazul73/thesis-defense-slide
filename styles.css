@@ -308,6 +308,53 @@ body::before {
 
 .problem-list strong { color: var(--ink); font-weight: 600; }
 
+.slide[data-slide="2"] .slide-heading {
+  margin-bottom: 1rem;
+}
+
+.classes-intro {
+  max-width: 1100px;
+  font-size: 1.02rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  margin-bottom: 1.4rem;
+}
+
+.classes-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.class-card {
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-top: 3px solid rgba(125, 29, 44, 0.65);
+  padding: 0.9rem 1rem 1rem;
+  min-height: 108px;
+  box-shadow: 0 10px 24px rgba(10, 30, 61, 0.05);
+}
+
+.class-card-accent {
+  background: linear-gradient(135deg, rgba(125, 29, 44, 0.08), rgba(255, 255, 255, 0.95));
+}
+
+.class-name {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  line-height: 1.15;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 0.45rem;
+}
+
+.class-card p {
+  font-size: 0.88rem;
+  line-height: 1.42;
+  color: var(--ink-soft);
+}
+
 .problem-highlight-box {
   margin: 1.5rem 0 1.25rem;
   padding: 1.2rem 1.25rem;
@@ -1593,8 +1640,9 @@ body::before {
     grid-template-columns: 1fr;
     gap: 1.5rem;
   }
+  .classes-grid,
   .problem-card-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .background-grid,
   .equations-grid {
@@ -1640,17 +1688,9 @@ body::before {
   .nav-arrow { display: none; }
   .nav-hint { display: none; }
   .title-meta { grid-template-columns: 1fr; }
-  .problem-image-stack {
-    min-height: 240px;
-  }
-  .stack-frame {
-    width: min(100%, 210px);
-  }
-  .stack-frame-middle {
-    left: 1.3rem;
-  }
-  .stack-frame-front {
-    left: 2.6rem;
+  .classes-grid,
+  .problem-card-grid {
+    grid-template-columns: 1fr;
   }
 }
 
