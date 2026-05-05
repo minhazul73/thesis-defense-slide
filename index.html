@@ -349,56 +349,118 @@
 
 <!-- ============ SLIDE 10: PROPOSED MODEL ARCHITECTURE ============ -->
 <section class="slide" data-slide="10">
-  <div class="slide-content">
-    <span class="slide-tag">09 · Proposed Model</span>
-    <h2 class="slide-heading">Token Stacking <em>Meta Learner</em></h2>
-    <div class="proposed-model">
-      <div class="model-row">
-        <div class="model-box model-input">
-          <span class="box-label">Input</span>
-          <p>Dermoscopic Image<br>100 × 75 × 3</p>
-        </div>
-        <div class="model-arrow">→</div>
-        <div class="model-stack">
-          <div class="model-box model-cnn">
-            <span class="box-label">Base 1</span>
-            <p>DenseNet201<br><span class="prob-shape">→ p₁ ∈ ℝ⁹</span></p>
-          </div>
-          <div class="model-box model-cnn">
-            <span class="box-label">Base 2</span>
-            <p>VGG16<br><span class="prob-shape">→ p₂ ∈ ℝ⁹</span></p>
-          </div>
-        </div>
-        <div class="model-arrow">→</div>
-        <div class="model-box model-stack-box">
-          <span class="box-label">Stack as Tokens</span>
-          <p>T ∈ ℝ⁽²ˣ⁹⁾</p>
-        </div>
-      </div>
-      <div class="model-arrow-down">↓</div>
-      <div class="model-row">
-        <div class="model-box model-attention">
-          <span class="box-label">⭐ Core Innovation</span>
-          <p><strong>Multi-Head Self-Attention</strong><br>heads = 2 · learns dynamic per-class importance</p>
-        </div>
-        <div class="model-arrow">→</div>
-        <div class="model-box">
-          <span class="box-label">LayerNorm</span>
-          <p>Stabilize</p>
-        </div>
-        <div class="model-arrow">→</div>
-        <div class="model-box">
-          <span class="box-label">Flatten → Dense</span>
-          <p>32 units · ReLU</p>
-        </div>
-        <div class="model-arrow">→</div>
-        <div class="model-box model-output">
-          <span class="box-label">Output</span>
-          <p>Softmax<br>9 classes</p>
-        </div>
-      </div>
+  <div class="slide-content a2-slide-content">
+    <div class="a2-header">
+      <span class="slide-tag">09 · Proposed Model</span>
+      <h2 class="slide-heading a2-heading">Token Stacking <em>Meta Learner</em> — Architecture</h2>
     </div>
-    <p class="caption"><strong>Why "tokens"?</strong> Each base model's prediction is treated as a separate unit, letting attention learn <em>which model to trust for which class</em>.</p>
+
+    <div class="a2-diagram">
+
+      <!-- INPUT IMAGES -->
+      <div class="a2-input-col">
+        <div class="a2-input-box">
+          <div class="a2-skin-stack">
+            <div class="a2-skin a2-skin-3"></div>
+            <div class="a2-skin a2-skin-2"></div>
+            <div class="a2-skin a2-skin-1"></div>
+          </div>
+        </div>
+        <span class="a2-col-label">Input Images</span>
+      </div>
+
+      <div class="a2-h-arrow">→</div>
+
+      <!-- TWO CNN BRANCHES -->
+      <div class="a2-branches-col">
+
+        <!-- Branch 1: DenseNet201 -->
+        <div class="a2-branch">
+          <div class="a2-cnn-outer">
+            <span class="a2-cnn-tag a2-cnn-tag-top">DenseNet201</span>
+            <div class="a2-cnn-box">
+              <div class="a2-blks">
+                <div class="a2-blk a2-blk-blue"><span>Input<br>Image</span></div>
+                <div class="a2-blk-sep">→</div>
+                <div class="a2-blk a2-blk-pink"><span>Dense<br>Block 1</span></div>
+                <div class="a2-blk-sep">→</div>
+                <div class="a2-blk a2-blk-pink"><span>Dense<br>Block 2</span></div>
+                <div class="a2-blk-sep">→</div>
+                <div class="a2-blk a2-blk-pink"><span>Dense<br>Block 3</span></div>
+                <div class="a2-blk-sep">→</div>
+                <div class="a2-blk a2-blk-pink"><span>Dense<br>Block 4</span></div>
+                <div class="a2-blk-sep">→</div>
+                <div class="a2-blk a2-blk-teal"><span>Global<br>Avg Pool</span></div>
+              </div>
+            </div>
+          </div>
+          <span class="a2-br-arrow">→</span>
+          <div class="a2-pred-box">
+            <span class="a2-pred-text">Prediction<br>Vector<br>(Softmax<br>output)<br>Shape: (34)</span>
+          </div>
+        </div>
+
+        <!-- Branch 2: VGG16 -->
+        <div class="a2-branch">
+          <div class="a2-cnn-outer">
+            <div class="a2-cnn-box">
+              <div class="a2-blks">
+                <div class="a2-blk a2-blk-blue"><span>Input<br>Image</span></div>
+                <div class="a2-blk-sep">→</div>
+                <div class="a2-blk a2-blk-orange"><span>Conv<br>64</span></div>
+                <div class="a2-blk-sep">→</div>
+                <div class="a2-blk a2-blk-orange"><span>Conv<br>128</span></div>
+                <div class="a2-blk-sep">→</div>
+                <div class="a2-blk a2-blk-orange"><span>Conv<br>256</span></div>
+                <div class="a2-blk-sep">→</div>
+                <div class="a2-blk a2-blk-orange"><span>Conv<br>512</span></div>
+                <div class="a2-blk-sep">→</div>
+                <div class="a2-blk a2-blk-teal"><span>FC<br>Layer</span></div>
+              </div>
+            </div>
+            <span class="a2-cnn-tag a2-cnn-tag-bot">VGG16</span>
+          </div>
+          <span class="a2-br-arrow">→</span>
+          <div class="a2-pred-box">
+            <span class="a2-pred-text">Prediction<br>Vector<br>(Softmax<br>output)<br>Shape: (34)</span>
+          </div>
+        </div>
+
+      </div><!-- /branches -->
+
+      <!-- CONVERGENCE BRACKET -->
+      <div class="a2-bracket">
+        <div class="a2-bracket-bar"></div>
+        <span class="a2-bracket-arrow">→</span>
+      </div>
+
+      <!-- STACKING LAYER BOX -->
+      <div class="a2-stack-box">
+        <span class="a2-stack-text">Stacking Layer<br>(Token Formation)<br>Shape: (2, 34)</span>
+      </div>
+
+      <div class="a2-h-arrow">→</div>
+
+      <!-- VERTICAL PROCESSING BLOCKS -->
+      <div class="a2-process-row">
+        <div class="a2-proc a2-proc-mha">
+          <span class="a2-vert-text">Self Attention Layer · Head = 2 · Learns model importance weights</span>
+        </div>
+        <div class="a2-proc a2-proc-ln">
+          <span class="a2-vert-text">Layer Normalization</span>
+        </div>
+        <div class="a2-proc a2-proc-flat">
+          <span class="a2-vert-text">Flatten Layer</span>
+        </div>
+        <div class="a2-proc a2-proc-dense">
+          <span class="a2-vert-text">Dense Layer (32, ReLU)</span>
+        </div>
+        <div class="a2-proc a2-proc-out">
+          <span class="a2-vert-text">Output Layer (Softmax, 9 class)</span>
+        </div>
+      </div>
+
+    </div><!-- /a2-diagram -->
   </div>
 </section>
 

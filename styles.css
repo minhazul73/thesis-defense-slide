@@ -995,6 +995,290 @@ body::before {
 .aug-techniques strong { color: var(--accent-soft); }
 
 /* ============================================
+   ARCHITECTURE DIAGRAM V2 — EXACT MATCH (Slide 10)
+   ============================================ */
+
+/* Slide layout */
+.a2-slide-content {
+  display: flex !important;
+  flex-direction: column !important;
+  padding: 1.4rem 2rem 1rem !important;
+  gap: 0 !important;
+  overflow: hidden;
+}
+
+.a2-header {
+  flex-shrink: 0;
+  margin-bottom: 0.7rem;
+}
+
+.a2-heading {
+  font-size: 1.75rem !important;
+  margin-bottom: 0 !important;
+  line-height: 1.2 !important;
+}
+
+/* Main diagram row */
+.a2-diagram {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  width: 100%;
+}
+
+/* ---- INPUT COLUMN ---- */
+.a2-input-col {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.a2-input-box {
+  border: 2px dashed #999;
+  padding: 0.55rem 0.6rem;
+  background: transparent;
+}
+
+.a2-skin-stack {
+  position: relative;
+  width: 60px;
+  height: 70px;
+}
+
+.a2-skin {
+  position: absolute;
+  width: 52px;
+  height: 62px;
+  border: 1.5px solid #888;
+}
+
+.a2-skin-1 { top: 0;  left: 8px; background: #5a3820; z-index: 3; }
+.a2-skin-2 { top: 4px; left: 4px; background: #8a5830; z-index: 2; }
+.a2-skin-3 { top: 8px; left: 0;  background: #b07840; z-index: 1; }
+
+.a2-col-label {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.1em;
+  color: var(--ink-muted);
+  text-align: center;
+}
+
+/* ---- ARROWS ---- */
+.a2-h-arrow {
+  font-size: 1.3rem;
+  color: #888;
+  flex-shrink: 0;
+  align-self: center;
+  line-height: 1;
+}
+
+.a2-br-arrow {
+  font-size: 1rem;
+  color: #888;
+  flex-shrink: 0;
+  padding: 0 0.2rem;
+}
+
+/* ---- BRANCHES COLUMN ---- */
+.a2-branches-col {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  justify-content: center;
+  align-self: stretch;
+}
+
+.a2-branch {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.a2-cnn-outer {
+  display: flex;
+  flex-direction: column;
+}
+
+.a2-cnn-tag {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.08em;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1px dashed #aaa;
+  padding: 0.1em 0.5em;
+  text-align: center;
+  display: block;
+}
+
+.a2-cnn-box {
+  border: 1.5px solid #bbb;
+  padding: 0.4rem 0.45rem;
+  background: #fafafa;
+}
+
+.a2-blks {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+}
+
+.a2-blk {
+  width: 42px;
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(0,0,0,0.1);
+  flex-shrink: 0;
+}
+
+.a2-blk span {
+  font-family: var(--font-mono);
+  font-size: 0.46rem;
+  line-height: 1.3;
+  text-align: center;
+  color: rgba(0,0,0,0.7);
+}
+
+.a2-blk-sep {
+  font-size: 0.6rem;
+  color: #aaa;
+  align-self: center;
+  padding: 0 0.1rem;
+  flex-shrink: 0;
+}
+
+.a2-blk-blue   { background: #cde4f8; }
+.a2-blk-pink   { background: #f8d0dc; }
+.a2-blk-orange { background: #f8e6cc; }
+.a2-blk-teal   { background: #c8f0dc; }
+
+/* ---- PREDICTION BOX ---- */
+.a2-pred-box {
+  background: #f8d0dc;
+  border: 1.5px solid #e090a8;
+  padding: 0.5rem 0.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 72px;
+  align-self: stretch;
+}
+
+.a2-pred-text {
+  font-family: var(--font-mono);
+  font-size: 0.5rem;
+  line-height: 1.6;
+  text-align: center;
+  color: var(--ink);
+}
+
+/* ---- CONVERGENCE BRACKET ---- */
+.a2-bracket {
+  position: relative;
+  width: 22px;
+  align-self: stretch;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.a2-bracket-bar {
+  position: absolute;
+  top: 18%;
+  bottom: 18%;
+  left: 3px;
+  right: 10px;
+  border-top: 2px solid #999;
+  border-right: 2px solid #999;
+  border-bottom: 2px solid #999;
+}
+
+.a2-bracket-arrow {
+  font-size: 0.9rem;
+  color: #888;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  line-height: 1;
+}
+
+/* ---- STACKING BOX ---- */
+.a2-stack-box {
+  flex-shrink: 0;
+  width: 82px;
+  align-self: stretch;
+  background: #b8d8f8;
+  border: 1.5px solid #78aad8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.4rem 0.35rem;
+}
+
+.a2-stack-text {
+  font-family: var(--font-mono);
+  font-size: 0.56rem;
+  line-height: 1.55;
+  text-align: center;
+  color: var(--ink);
+}
+
+/* ---- VERTICAL PROCESSING BLOCKS ---- */
+.a2-process-row {
+  flex: 1;
+  min-width: 0;
+  align-self: stretch;
+  display: flex;
+  align-items: stretch;
+  gap: 0.2rem;
+}
+
+.a2-proc {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem 0.2rem;
+  min-width: 0;
+}
+
+.a2-vert-text {
+  font-family: var(--font-sans);
+  font-size: 0.6rem;
+  font-weight: 500;
+  line-height: 1.4;
+  text-align: center;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+
+.a2-proc-mha   { background: #7a1a1a; }
+.a2-proc-mha   .a2-vert-text { color: #fff; }
+
+.a2-proc-ln    { background: #2d7a50; }
+.a2-proc-ln    .a2-vert-text { color: #fff; }
+
+.a2-proc-flat  { background: #6555a8; }
+.a2-proc-flat  .a2-vert-text { color: #fff; }
+
+.a2-proc-dense { background: #d4c048; }
+.a2-proc-dense .a2-vert-text { color: #333; }
+
+.a2-proc-out   { background: #2a6a32; }
+.a2-proc-out   .a2-vert-text { color: #fff; font-weight: 700; }
+
+/* ============================================
    PROPOSED MODEL (SLIDE 9)
    ============================================ */
 .proposed-model {
