@@ -308,6 +308,141 @@ body::before {
 
 .problem-list strong { color: var(--ink); font-weight: 600; }
 
+.problem-highlight-box {
+  margin: 1.5rem 0 1.25rem;
+  padding: 1.2rem 1.25rem;
+  border: 1px solid rgba(125, 29, 44, 0.25);
+  background: linear-gradient(135deg, rgba(125, 29, 44, 0.08), rgba(255, 255, 255, 0.9));
+  box-shadow: 0 12px 28px rgba(10, 30, 61, 0.06);
+}
+
+.problem-highlight-label {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.55rem;
+}
+
+.problem-highlight-box p {
+  font-size: 0.98rem;
+  line-height: 1.65;
+  color: var(--ink-soft);
+}
+
+.problem-highlight-box strong { color: var(--ink); }
+
+.problem-card-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.problem-card {
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  padding: 1.1rem 1.1rem 1.2rem;
+  min-height: 170px;
+  box-shadow: 0 10px 24px rgba(10, 30, 61, 0.05);
+}
+
+.problem-card-num {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 0.65rem;
+}
+
+.problem-card h3 {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 0.55rem;
+}
+
+.problem-card p {
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+
+.problem-visual {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.problem-image-stack {
+  position: relative;
+  min-height: 360px;
+  padding: 0.75rem 0.5rem 0.25rem;
+}
+
+.stack-frame {
+  position: absolute;
+  width: min(100%, 290px);
+  aspect-ratio: 4 / 3;
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  padding: 0.45rem;
+  box-shadow: 0 18px 40px rgba(10, 30, 61, 0.12);
+  overflow: hidden;
+}
+
+.stack-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.stack-frame-back {
+  top: 1.1rem;
+  left: 0;
+  transform: rotate(-7deg);
+  z-index: 1;
+}
+
+.stack-frame-middle {
+  top: 3rem;
+  left: 2.4rem;
+  transform: rotate(4deg);
+  z-index: 2;
+}
+
+.stack-frame-front {
+  top: 5.2rem;
+  left: 4.8rem;
+  transform: rotate(-2deg);
+  z-index: 3;
+}
+
+.problem-image-caption {
+  padding-left: 0.2rem;
+}
+
+.problem-image-tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.6rem;
+}
+
+.problem-image-caption p {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+
 /* ============================================
    BACKGROUND CARDS GRID
    ============================================ */
@@ -1458,6 +1593,9 @@ body::before {
     grid-template-columns: 1fr;
     gap: 1.5rem;
   }
+  .problem-card-grid {
+    grid-template-columns: 1fr;
+  }
   .background-grid,
   .equations-grid {
     grid-template-columns: 1fr;
@@ -1472,6 +1610,18 @@ body::before {
     grid-template-columns: 1fr;
   }
   .dataset-arrow { transform: rotate(90deg); }
+  .problem-image-stack {
+    min-height: 300px;
+  }
+  .stack-frame {
+    width: min(100%, 260px);
+  }
+  .stack-frame-middle {
+    left: 2rem;
+  }
+  .stack-frame-front {
+    left: 4rem;
+  }
   .slide { padding: 4vh 5vw; }
 
   /* Architecture: collapse 3-col rows to single column */
@@ -1490,6 +1640,18 @@ body::before {
   .nav-arrow { display: none; }
   .nav-hint { display: none; }
   .title-meta { grid-template-columns: 1fr; }
+  .problem-image-stack {
+    min-height: 240px;
+  }
+  .stack-frame {
+    width: min(100%, 210px);
+  }
+  .stack-frame-middle {
+    left: 1.3rem;
+  }
+  .stack-frame-front {
+    left: 2.6rem;
+  }
 }
 
 /* ============================================

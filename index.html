@@ -65,17 +65,43 @@
     <h2 class="slide-heading">Why does this <em>matter</em>?</h2>
     <div class="two-column">
       <div class="col-left">
-        <p class="lead">Skin cancer is one of the deadliest cancers worldwide. <strong>Melanoma</strong> alone has the highest fatality rate among all skin cancers — and survival depends entirely on <strong>early detection</strong>.</p>
-        <p class="body-text">Today's diagnosis depends on dermatologist expertise, but lesions look <em>visually similar</em>. Hair occlusion, shadows, uneven pigmentation — these artifacts make even expert diagnosis subjective and error-prone.</p>
+        <p class="lead">The world still faces a difficult medical imaging problem: skin lesions often look similar, but the diagnosis behind them can be very different.</p>
+        <p class="body-text">Dermoscopic images can hide important cues behind hair, shadows, and texture noise. At the same time, class imbalance makes some lesion types harder to recognize than others, which raises the risk of misclassification.</p>
+        <div class="problem-highlight-box">
+          <span class="problem-highlight-label">Core Challenge</span>
+          <p>Learning the right visual cues is hard when lesions overlap in appearance, data is unevenly distributed, and the model must remain reliable in a clinical setting.</p>
+        </div>
+        <div class="problem-card-grid">
+          <div class="problem-card">
+            <span class="problem-card-num">01</span>
+            <h3>Visual similarity</h3>
+            <p>Many lesion types share overlapping color, shape, and texture patterns.</p>
+          </div>
+          <div class="problem-card">
+            <span class="problem-card-num">02</span>
+            <h3>Uneven data</h3>
+            <p>Rare lesions are easy to overlook when the training set is not balanced.</p>
+          </div>
+        </div>
       </div>
       <div class="col-right">
-        <ul class="problem-list">
-          <li><span class="bullet-x">✕</span> Single CNN models are <strong>unstable</strong> across lesion classes</li>
-          <li><span class="bullet-x">✕</span> Public datasets suffer from severe <strong>class imbalance</strong></li>
-          <li><span class="bullet-x">✕</span> Deep learning models behave like <strong>black boxes</strong></li>
-          <li><span class="bullet-x">✕</span> Multi-class accuracy lags far behind binary tasks</li>
-          <li><span class="bullet-x">✕</span> Models that work on ISIC fail on HAM10000</li>
-        </ul>
+        <div class="problem-visual">
+          <div class="problem-image-stack">
+            <div class="stack-frame stack-frame-back">
+              <img src="assets/ISIC_melanoma_0000145.jpg" alt="Melanoma lesion sample">
+            </div>
+            <div class="stack-frame stack-frame-middle">
+              <img src="assets/ISIC_actinic keratosis_0025992.jpg" alt="Actinic keratosis lesion sample">
+            </div>
+            <div class="stack-frame stack-frame-front">
+              <img src="assets/ISIC_squamous_0024923.jpg" alt="Squamous cell carcinoma lesion sample">
+            </div>
+          </div>
+          <div class="problem-image-caption">
+            <span class="problem-image-tag">Representative lesion samples</span>
+            <p>Even different lesion types can appear deceptively close, so the model has to learn subtle discriminative cues.</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
