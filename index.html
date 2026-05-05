@@ -264,43 +264,109 @@
 
 <!-- ============ SLIDE 8: SYSTEM ARCHITECTURE ============ -->
 <section class="slide" data-slide="8">
-  <div class="slide-content">
-    <span class="slide-tag">07 · Methodology</span>
-    <h2 class="slide-heading">System <em>Architecture</em></h2>
-    <div class="architecture-flow">
-      <div class="arch-row">
-        <div class="arch-stage">
-          <div class="stage-num">1</div>
-          <div class="stage-body"><h4>Data</h4><p>ISIC dataset · 2,357 images · 9 classes</p></div>
+  <div class="slide-content meth-slide-content">
+    <div class="meth-header-row">
+      <span class="slide-tag">07 · Methodology</span>
+      <h2 class="slide-heading meth-heading">System <em>Architecture</em></h2>
+    </div>
+
+    <div class="meth-diagram">
+
+      <!-- 1. ISIC DATASET INPUT -->
+      <div class="meth-dataset-col">
+        <div class="meth-dataset-box">
+          <div class="meth-ds-imgs">
+            <div class="meth-ds-img meth-ds-img1"></div>
+            <div class="meth-ds-img meth-ds-img2"></div>
+          </div>
         </div>
-        <div class="arch-arrow">→</div>
-        <div class="arch-stage">
-          <div class="stage-num">2</div>
-          <div class="stage-body"><h4>Preprocess</h4><p>Resize 100×75 · Normalize · One-hot encode</p></div>
+        <span class="meth-ds-label">Skin Cancer<br>ISIC Dataset</span>
+      </div>
+
+      <div class="meth-h-arrow">→</div>
+
+      <!-- 2. MAIN PROCESSING BLOCK -->
+      <div class="meth-processing-block">
+
+        <!-- Dataset Splitting -->
+        <div class="meth-splitting">
+          <div class="meth-section-hdr meth-hdr-green">Dataset Splitting</div>
+          <div class="meth-split-inner">
+            <div class="meth-split-row">
+              <div class="meth-split-box">Train<br><strong>80%</strong></div>
+              <div class="meth-split-sep">→</div>
+              <div class="meth-split-box">Validation<br><strong>20%</strong></div>
+            </div>
+            <div class="meth-split-test">Test<br><strong>20%</strong></div>
+          </div>
         </div>
-        <div class="arch-arrow">→</div>
-        <div class="arch-stage">
-          <div class="stage-num">3</div>
-          <div class="stage-body"><h4>Augment</h4><p>2,500 / class · 22,500 total</p></div>
+
+        <div class="meth-down-sep">↓</div>
+
+        <!-- Dataset Preprocessing -->
+        <div class="meth-preprocessing">
+          <div class="meth-section-hdr meth-hdr-blue">Dataset Preprocessing</div>
+          <div class="meth-prep-params">
+            <span>Height = 75px &nbsp; Width = 75 px &nbsp; Canal = 3</span>
+          </div>
+        </div>
+
+        <!-- Data Augmentation -->
+        <div class="meth-augmentation">
+          <div class="meth-aug-title">DATA AUGMENTATION</div>
+          <div class="meth-aug-code">
+            <span>rescale=1./255,</span>
+            <span>zoom range=0.2,</span>
+            <span>rotation range=20,</span>
+            <span>width shift range=0.1,</span>
+            <span>height shift range=0.1,</span>
+            <span>horizontal flip=True,</span>
+            <span>fill_mode='nearest'</span>
+          </div>
+        </div>
+
+        <!-- Class Balancing -->
+        <div class="meth-class-bal">Class Balancing</div>
+
+      </div>
+
+      <div class="meth-h-arrow">→</div>
+
+      <!-- 3. CNN MODELS BOX -->
+      <div class="meth-cnn-box">
+        <div class="meth-cnn-hdr">State-of-the-art CNN Models</div>
+        <div class="meth-cnn-list">
+          <div class="meth-cnn-item">MobileNetV2</div>
+          <div class="meth-cnn-item">DenseNet 201</div>
+          <div class="meth-cnn-item">VGG16</div>
+          <div class="meth-cnn-item">VGG19</div>
+          <div class="meth-cnn-item">ResNet50</div>
+          <div class="meth-cnn-item">Xception</div>
+          <div class="meth-cnn-item">Inception V3</div>
         </div>
       </div>
-      <div class="arch-bridge"><span class="arch-arrow-down">↓</span></div>
-      <div class="arch-row">
-        <div class="arch-stage">
-          <div class="stage-num">4</div>
-          <div class="stage-body"><h4>Train 7 CNNs</h4><p>DenseNet201 · VGG16/19 · ResNet50 · InceptionV3 · Xception · MobileNetV2</p></div>
-        </div>
-        <div class="arch-arrow">→</div>
-        <div class="arch-stage arch-highlight">
-          <div class="stage-num">5</div>
-          <div class="stage-body"><h4>Token Stacking + Self-Attention</h4><p>DenseNet201 + VGG16 outputs as attention tokens</p></div>
-        </div>
-        <div class="arch-arrow">→</div>
-        <div class="arch-stage">
-          <div class="stage-num">6</div>
-          <div class="stage-body"><h4>Grad-CAM</h4><p>Heatmaps for clinical interpretability</p></div>
-        </div>
+
+      <div class="meth-h-arrow">→</div>
+
+      <!-- 4. ENSEMBLE / HYBRID -->
+      <div class="meth-vert-blk meth-ensemble-blk">
+        <span class="meth-vert-txt">Ensemble/Hybrid model</span>
       </div>
+
+      <div class="meth-h-arrow">→</div>
+
+      <!-- 5. SELECT BEST MODEL -->
+      <div class="meth-vert-blk meth-select-blk">
+        <span class="meth-vert-txt">Select the best model</span>
+      </div>
+
+      <div class="meth-h-arrow">→</div>
+
+      <!-- 6. CLASSIFY OUTPUT -->
+      <div class="meth-output-box">
+        <span class="meth-output-txt">Classify<br>Skin<br>Cancer</span>
+      </div>
+
     </div>
   </div>
 </section>

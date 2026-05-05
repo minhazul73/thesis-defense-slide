@@ -779,6 +779,310 @@ body::before {
 .q-block-accent .q-list li::before { color: var(--accent-soft); }
 
 /* ============================================
+   METHODOLOGY DIAGRAM (SLIDE 8) — exact image match
+   ============================================ */
+
+.meth-slide-content {
+  display: flex !important;
+  flex-direction: column !important;
+  padding: 1.4rem 2rem 1rem !important;
+  gap: 0 !important;
+  overflow: hidden;
+}
+
+.meth-header-row {
+  flex-shrink: 0;
+  margin-bottom: 0.6rem;
+}
+
+.meth-heading {
+  font-size: 1.75rem !important;
+  margin-bottom: 0 !important;
+  line-height: 1.2 !important;
+}
+
+/* Main diagram row */
+.meth-diagram {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  width: 100%;
+}
+
+/* Horizontal arrows */
+.meth-h-arrow {
+  font-size: 1.25rem;
+  color: #888;
+  flex-shrink: 0;
+  align-self: center;
+  line-height: 1;
+}
+
+/* ---- DATASET INPUT ---- */
+.meth-dataset-col {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.meth-dataset-box {
+  border: 2px dashed #888;
+  padding: 0.5rem 0.55rem;
+  background: transparent;
+}
+
+.meth-ds-imgs {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.meth-ds-img {
+  width: 58px;
+  height: 46px;
+  border: 1px solid #777;
+}
+
+.meth-ds-img1 { background: linear-gradient(135deg, #b07040 0%, #602010 100%); }
+.meth-ds-img2 { background: linear-gradient(135deg, #e8c0b8 0%, #c05878 100%); }
+
+.meth-ds-label {
+  font-family: var(--font-mono);
+  font-size: 0.54rem;
+  letter-spacing: 0.06em;
+  color: var(--ink-muted);
+  text-align: center;
+  line-height: 1.4;
+  border: 1.5px dashed #aaa;
+  padding: 0.15em 0.45em;
+}
+
+/* ---- MAIN PROCESSING BLOCK ---- */
+.meth-processing-block {
+  flex-shrink: 0;
+  border: 1.5px dashed #bbb;
+  padding: 0.5rem 0.55rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.22rem;
+  align-self: stretch;
+  justify-content: space-between;
+  min-width: 190px;
+  background: rgba(255,255,255,0.4);
+}
+
+.meth-section-hdr {
+  font-family: var(--font-sans);
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-align: center;
+  padding: 0.2em 0.4em;
+  color: var(--ink);
+}
+
+.meth-hdr-green { background: #b8ddb0; border: 1px solid #80b870; }
+.meth-hdr-blue  { background: #b0cce8; border: 1px solid #80a8d0; }
+
+/* Splitting sub-layout */
+.meth-split-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.2rem 0;
+}
+
+.meth-split-row {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.meth-split-box {
+  border: 1px solid #bbb;
+  background: #fff;
+  padding: 0.18rem 0.45rem;
+  text-align: center;
+  font-size: 0.58rem;
+  line-height: 1.4;
+  font-family: var(--font-mono);
+}
+
+.meth-split-sep {
+  font-size: 0.75rem;
+  color: #888;
+}
+
+.meth-split-test {
+  border: 1px solid #bbb;
+  background: #fff;
+  padding: 0.18rem 0.6rem;
+  text-align: center;
+  font-size: 0.58rem;
+  line-height: 1.4;
+  font-family: var(--font-mono);
+}
+
+.meth-down-sep {
+  text-align: center;
+  font-size: 0.85rem;
+  color: #888;
+  line-height: 1;
+}
+
+/* Preprocessing */
+.meth-prep-params {
+  padding: 0.2rem 0.3rem;
+  text-align: center;
+}
+
+.meth-prep-params span {
+  font-family: var(--font-mono);
+  font-size: 0.56rem;
+  color: var(--ink-soft);
+}
+
+/* Augmentation */
+.meth-augmentation {
+  border: 1px solid #ccc;
+  padding: 0.3rem 0.4rem;
+  background: #fff;
+}
+
+.meth-aug-title {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 0.2rem;
+  letter-spacing: 0.04em;
+}
+
+.meth-aug-code {
+  display: flex;
+  flex-direction: column;
+  gap: 0.02rem;
+}
+
+.meth-aug-code span {
+  font-family: var(--font-mono);
+  font-size: 0.5rem;
+  color: var(--ink-soft);
+  line-height: 1.45;
+}
+
+/* Class Balancing */
+.meth-class-bal {
+  border: 1px solid #ccc;
+  background: #fff;
+  text-align: center;
+  padding: 0.22rem;
+  font-family: var(--font-sans);
+  font-size: 0.6rem;
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* ---- CNN MODELS BOX ---- */
+.meth-cnn-box {
+  flex-shrink: 0;
+  border: 2px dashed #78a8d8;
+  padding: 0.35rem 0.45rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.18rem;
+  align-self: stretch;
+  justify-content: space-between;
+  min-width: 118px;
+  background: rgba(220,236,255,0.2);
+}
+
+.meth-cnn-hdr {
+  font-family: var(--font-sans);
+  font-size: 0.58rem;
+  font-weight: 700;
+  color: #1a50a0;
+  text-align: center;
+  background: #cce0f8;
+  padding: 0.2em 0.3em;
+  border: 1px solid #90c0e8;
+}
+
+.meth-cnn-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  flex: 1;
+  justify-content: space-evenly;
+}
+
+.meth-cnn-item {
+  border: 1px solid #b0c8e0;
+  background: #fff;
+  text-align: center;
+  padding: 0.16rem 0.3rem;
+  font-family: var(--font-mono);
+  font-size: 0.54rem;
+  color: var(--ink);
+}
+
+/* ---- VERTICAL BLOCKS ---- */
+.meth-vert-blk {
+  flex-shrink: 0;
+  width: 52px;
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.3rem 0.2rem;
+}
+
+.meth-vert-txt {
+  font-family: var(--font-sans);
+  font-size: 0.62rem;
+  font-weight: 600;
+  text-align: center;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  line-height: 1.35;
+}
+
+.meth-ensemble-blk {
+  background: #a8c8e8;
+}
+.meth-ensemble-blk .meth-vert-txt { color: #103060; }
+
+.meth-select-blk {
+  background: #7a1a1a;
+}
+.meth-select-blk .meth-vert-txt { color: #fff; }
+
+/* ---- OUTPUT BOX ---- */
+.meth-output-box {
+  flex-shrink: 0;
+  width: 72px;
+  align-self: stretch;
+  background: #2a6a32;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 0.35rem;
+}
+
+.meth-output-txt {
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-align: center;
+  color: #fff;
+  line-height: 1.4;
+}
+
+/* ============================================
    ARCHITECTURE FLOW (SLIDE 7) — landscape 2-row
    ============================================ */
 .architecture-flow {
