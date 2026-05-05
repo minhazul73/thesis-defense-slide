@@ -853,10 +853,47 @@ RETURN ĉ</pre>
   </div>
 </section>
 
-<!-- ============ SLIDE 20: WHY ViT FAILED ============ -->
+<!-- ============ SLIDE 20: XAI — EXPLAINABILITY ============ -->
 <section class="slide" data-slide="20">
+  <div class="slide-content xai-slide-content">
+    <div class="xai-header">
+      <span class="slide-tag">19 · Explainable AI</span>
+      <h2 class="slide-heading xai-heading">Can the model <em>explain itself?</em></h2>
+      <p class="xai-subhead">We applied Grad-CAM to verify that our trained model focuses on clinically relevant skin lesion features — not background noise or artefacts.</p>
+    </div>
+    <div class="xai-body xai-body-single">
+      <div class="xai-panel xai-panel-wide">
+        <div class="xai-panel-header">
+          <span class="xai-tech-badge xai-badge-gradcam">Grad-CAM</span>
+          <h4 class="xai-panel-title">Gradient-weighted Class Activation Maps — heatmap overlays on test images</h4>
+        </div>
+        <div class="xai-img-wrap xai-img-wrap-wide">
+          <img src="assets/densenet_img6.png" alt="Grad-CAM heatmaps on skin lesion images" class="xai-img">
+        </div>
+        <p class="xai-caption">Warmer regions indicate higher gradient activation. The model consistently highlights the <em>lesion boundary and pigmentation texture</em> — not surrounding healthy skin.</p>
+      </div>
+      <div class="xai-takeaway">
+        <div class="xai-take-row">
+          <span class="xai-take-icon">✓</span>
+          <span>Model attends to the <strong>lesion region</strong>, not surrounding skin</span>
+        </div>
+        <div class="xai-take-row">
+          <span class="xai-take-icon">✓</span>
+          <span>Activations align with <strong>clinical diagnostic cues</strong> (ABCDE criteria)</span>
+        </div>
+        <div class="xai-take-row">
+          <span class="xai-take-icon">✓</span>
+          <span>Builds <strong>clinician trust</strong> — decisions are traceable, not a black box</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 21: WHY ViT FAILED ============ -->
+<section class="slide" data-slide="21">
   <div class="slide-content">
-    <span class="slide-tag">19 · Critical Analysis</span>
+    <span class="slide-tag">20 · Critical Analysis</span>
     <h2 class="slide-heading">Why the <em>ViT hybrid</em> underperformed</h2>
     <div class="vit-analysis">
       <div class="vit-fact">
@@ -885,10 +922,10 @@ RETURN ĉ</pre>
   </div>
 </section>
 
-<!-- ============ SLIDE 21: KEY EQUATIONS ============ -->
-<section class="slide" data-slide="21">
+<!-- ============ SLIDE 22: KEY EQUATIONS ============ -->
+<section class="slide" data-slide="22">
   <div class="slide-content">
-    <span class="slide-tag">20 · Mathematical Foundation</span>
+    <span class="slide-tag">21 · Mathematical Foundation</span>
     <h2 class="slide-heading">The <em>core equations</em></h2>
     <div class="equations-grid">
       <div class="eq-card">
@@ -925,10 +962,10 @@ RETURN ĉ</pre>
   </div>
 </section>
 
-<!-- ============ SLIDE 22: CONTRIBUTIONS & IMPACT ============ -->
-<section class="slide" data-slide="22">
+<!-- ============ SLIDE 23: CONTRIBUTIONS & IMPACT ============ -->
+<section class="slide" data-slide="23">
   <div class="slide-content">
-    <span class="slide-tag">21 · Contribution & Impact</span>
+    <span class="slide-tag">22 · Contribution & Impact</span>
     <h2 class="slide-heading">What we <em>contribute</em></h2>
     <div class="contributions">
       <div class="contrib-row">
@@ -964,10 +1001,10 @@ RETURN ĉ</pre>
   </div>
 </section>
 
-<!-- ============ SLIDE 23: LIMITATIONS & FUTURE WORK ============ -->
-<section class="slide" data-slide="23">
+<!-- ============ SLIDE 24: LIMITATIONS & FUTURE WORK ============ -->
+<section class="slide" data-slide="24">
   <div class="slide-content">
-    <span class="slide-tag">22 · Honesty</span>
+    <span class="slide-tag">23 · Honesty</span>
     <h2 class="slide-heading"><em>Limitations</em> & where we go next</h2>
     <div class="limit-grid">
       <div class="limit-side">
@@ -995,8 +1032,8 @@ RETURN ĉ</pre>
   </div>
 </section>
 
-<!-- ============ SLIDE 24: THANK YOU / Q&A ============ -->
-<section class="slide slide-end" data-slide="24">
+<!-- ============ SLIDE 25: THANK YOU / Q&A ============ -->
+<section class="slide slide-end" data-slide="25">
   <div class="end-content">
     <div class="end-mark">END · Q&A</div>
     <h2 class="end-heading">Thank <em>you</em>.</h2>

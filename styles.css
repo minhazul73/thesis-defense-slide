@@ -2767,3 +2767,159 @@ body::before {
   .progress-bar,
   .slide-counter { display: none !important; }
 }
+
+/* ============================================================
+   XAI — EXPLAINABILITY SLIDE
+   ============================================================ */
+.xai-slide-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  padding: 1.8rem 2.2rem 1.4rem;
+}
+
+.xai-header {
+  flex-shrink: 0;
+}
+
+.xai-heading {
+  margin: 0.15rem 0 0.25rem;
+  font-size: clamp(1.5rem, 2.8vw, 2rem);
+}
+
+.xai-subhead {
+  font-size: 0.88rem;
+  color: var(--ink-muted);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.xai-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 1rem;
+  align-items: start;
+  flex: 1;
+  min-height: 0;
+}
+
+.xai-body-single {
+  grid-template-columns: 1fr auto;
+}
+
+.xai-panel-wide {
+  /* takes full available column in single mode */
+}
+
+.xai-img-wrap-wide {
+  min-height: 220px;
+}
+
+.xai-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  padding: 0.9rem;
+  box-shadow: 0 1px 4px rgba(10,30,61,0.06);
+}
+
+.xai-panel-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.xai-tech-badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.18rem 0.55rem;
+  border-radius: 4px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.xai-badge-gradcam {
+  background: rgba(180, 30, 50, 0.12);
+  color: var(--accent);
+  border: 1px solid rgba(125, 29, 44, 0.3);
+}
+
+
+.xai-panel-title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.xai-img-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-deep);
+  border-radius: 6px;
+  overflow: hidden;
+  min-height: 0;
+}
+
+.xai-img {
+  width: 100%;
+  height: 100%;
+  max-height: 200px;
+  object-fit: contain;
+  display: block;
+}
+
+.xai-caption {
+  font-size: 0.72rem;
+  color: var(--ink-muted);
+  line-height: 1.45;
+  margin: 0;
+}
+
+.xai-caption em {
+  color: var(--ink-soft);
+  font-style: normal;
+  font-weight: 600;
+}
+
+/* Takeaway column */
+.xai-takeaway {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.7rem;
+  padding: 1rem 1.1rem;
+  background: rgba(28, 74, 54, 0.06);
+  border: 1px solid rgba(28, 74, 54, 0.2);
+  border-radius: 10px;
+  min-width: 200px;
+}
+
+.xai-take-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: var(--ink);
+}
+
+.xai-take-icon {
+  color: var(--signal);
+  font-size: 0.95rem;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 0.05rem;
+}
+
+.xai-take-row strong {
+  color: var(--ink-soft);
+}
