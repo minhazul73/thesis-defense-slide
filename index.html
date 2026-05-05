@@ -127,31 +127,52 @@
   </div>
 </section>
 
-<!-- ============ SLIDE 4: BACKGROUND ============ -->
+<!-- ============ SLIDE 4: LITERATURE REVIEW STARTER ============ -->
 <section class="slide" data-slide="4">
   <div class="slide-content">
-    <span class="slide-tag">03 · Background</span>
-    <h2 class="slide-heading">The <em>Present State</em></h2>
-    <div class="background-grid">
-      <div class="bg-card">
-        <span class="card-num">01</span>
-        <h3>CNN Era</h3>
-        <p>VGG, ResNet, DenseNet, Inception — architectures designed for ImageNet — repurposed for medical imaging via <strong>transfer learning</strong>.</p>
+    <span class="slide-tag">03 · Literature Review</span>
+    <h2 class="slide-heading">What the <em>literature</em> tells us</h2>
+    <p class="lit-intro">We reviewed recent skin cancer classification studies across five thematic streams. Each stream reveals both progress and persistent gaps.</p>
+    <div class="lit-streams">
+      <div class="lit-stream">
+        <div class="stream-header">
+          <span class="stream-num">01</span>
+          <h3>CNN &amp; Transfer Learning</h3>
+        </div>
+        <p>Xception, VGG16, DenseNet169 achieve 84–91% accuracy on ISIC via ImageNet pre-training. Deeper networks outperform older architectures for representation learning.</p>
+        <span class="stream-tag">High accuracy · class-level gaps remain</span>
       </div>
-      <div class="bg-card">
-        <span class="card-num">02</span>
-        <h3>Ensemble Era</h3>
-        <p>Researchers combine multiple CNNs to escape single-model instability. Soft voting, stacking, weighted averaging.</p>
+      <div class="lit-stream">
+        <div class="stream-header">
+          <span class="stream-num">02</span>
+          <h3>Multiclass Classification</h3>
+        </div>
+        <p>XceptionNet and ResNet50 report 78–82% on multiclass tasks — well below binary results. Harder decision boundaries and severe class imbalance are to blame.</p>
+        <span class="stream-tag">Accuracy drops sharply beyond 2 classes</span>
       </div>
-      <div class="bg-card">
-        <span class="card-num">03</span>
-        <h3>Attention Era</h3>
-        <p>Vision Transformers introduce global context modeling. But they need <em>massive datasets</em> — a luxury medical imaging rarely has.</p>
+      <div class="lit-stream">
+        <div class="stream-header">
+          <span class="stream-num">03</span>
+          <h3>Ensemble Learning</h3>
+        </div>
+        <p>Multi-model ensembles range from 78% (VGG16) to 97% (ResNet101 + Self-Attention). Feature diversity across architectures improves stability and reduces per-class variance.</p>
+        <span class="stream-tag">Wide range · model selection is critical</span>
       </div>
-      <div class="bg-card highlight-card">
-        <span class="card-num">04</span>
-        <h3>Our Position</h3>
-        <p>Combine the <strong>stability of ensembles</strong> with the <strong>dynamic weighting of attention</strong> — and add Grad-CAM for trust.</p>
+      <div class="lit-stream">
+        <div class="stream-header">
+          <span class="stream-num">04</span>
+          <h3>Transformers &amp; Hybrids</h3>
+        </div>
+        <p>ViT + GNN hybrid reaches 95%; self-supervised transformers hit 96.48%. But both demand large datasets and heavy compute — not feasible for modest medical collections.</p>
+        <span class="stream-tag">High ceiling · data-hungry</span>
+      </div>
+      <div class="lit-stream">
+        <div class="stream-header">
+          <span class="stream-num">05</span>
+          <h3>Explainable AI (XAI)</h3>
+        </div>
+        <p>Grad-CAM baselines show 73–77% accuracy — interpretability tools alone don't lift performance. Yet clinical adoption requires both accuracy <em>and</em> visual trust.</p>
+        <span class="stream-tag">Interpretable · but not always accurate</span>
       </div>
     </div>
   </div>

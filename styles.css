@@ -548,6 +548,97 @@ body::before {
 .highlight-card p strong { color: var(--paper); }
 
 /* ============================================
+   LITERATURE REVIEW STARTER (Slide 4)
+   ============================================ */
+.lit-intro {
+  font-size: 0.95rem;
+  color: var(--ink-soft);
+  max-width: 70ch;
+  margin-bottom: 1.4rem;
+  line-height: 1.6;
+}
+
+.lit-streams {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem;
+  align-items: start;
+}
+
+.lit-stream {
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  padding: 1.25rem 1.1rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  transition: border-color 0.25s ease, transform 0.25s ease;
+  position: relative;
+}
+
+.lit-stream:hover {
+  border-color: var(--accent);
+  transform: translateY(-3px);
+}
+
+.lit-stream:nth-child(1) { border-top: 3px solid var(--accent); }
+.lit-stream:nth-child(2) { border-top: 3px solid #7c9e8a; }
+.lit-stream:nth-child(3) { border-top: 3px solid #b5956a; }
+.lit-stream:nth-child(4) { border-top: 3px solid #8b7bb5; }
+.lit-stream:nth-child(5) { border-top: 3px solid #9e6b7c; }
+
+.stream-header {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-bottom: 0.15rem;
+}
+
+.stream-num {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  color: var(--accent);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.lit-stream:nth-child(2) .stream-num { color: #7c9e8a; }
+.lit-stream:nth-child(3) .stream-num { color: #b5956a; }
+.lit-stream:nth-child(4) .stream-num { color: #8b7bb5; }
+.lit-stream:nth-child(5) .stream-num { color: #9e6b7c; }
+
+.stream-header h3 {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.25;
+  margin: 0;
+}
+
+.lit-stream p {
+  font-size: 0.8rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  margin: 0;
+  flex: 1;
+}
+
+.stream-tag {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  color: var(--ink-muted);
+  background: var(--cream);
+  border: 1px solid var(--rule);
+  padding: 0.2em 0.5em;
+  display: inline-block;
+  align-self: flex-start;
+  margin-top: auto;
+}
+
+/* ============================================
    LITERATURE TABLE
    ============================================ */
 .lit-table, .results-table, .config-table, .data-table {
@@ -1647,6 +1738,9 @@ body::before {
   .background-grid,
   .equations-grid {
     grid-template-columns: 1fr;
+  }
+  .lit-streams {
+    grid-template-columns: repeat(2, 1fr);
   }
   .contrib-row {
     grid-template-columns: 1fr;
